@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1035480627652",
+    "project_id": "test-68ea4",
+    "storage_bucket": "test-68ea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035480627652:android:b8010807315b69d7cb0c91",
+        "android_client_info": {
+          "package_name": "com.opensource.ganada"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035480627652-9la03hljm5dbfg5rejrhi7bcu3ennqtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.opensource.ganada",
+            "certificate_hash": "7a66a6da1d4e492c7b26b239664d99e10d2b5eb9"
+          }
+        },
+        {
+          "client_id": "1035480627652-romkooth1rh9m4ge8u44p89jceokrf2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4dGow40TT-O18piMXVK2OhI1Te0jTLKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035480627652-romkooth1rh9m4ge8u44p89jceokrf2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
