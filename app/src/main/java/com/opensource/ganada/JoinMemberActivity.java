@@ -40,6 +40,7 @@ public class JoinMemberActivity extends AppCompatActivity {
         });
     }
 
+    // The code to sign up through email and password.
     public void createUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
