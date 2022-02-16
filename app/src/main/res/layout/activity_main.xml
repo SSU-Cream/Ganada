@@ -58,10 +58,10 @@
         android:layout_gravity="center"
         android:ems="10"
         android:hint="이메일을 입력하세요"
-        android:gravity="center"
         android:textColorHint="#282828"
         android:inputType="textEmailAddress"
         android:background="@drawable/boder"
+        android:drawableStart="@drawable/person"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
         android:layout_gravity="center"
         android:ems="10"
         android:hint="비밀번호를 입략하세요"
-        android:gravity="center"
+        android:drawableStart="@drawable/lock"
         android:textColorHint="#282828"
         android:background="@drawable/boder"
         android:inputType="textPassword"
@@ -86,10 +86,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
+    <CheckBox
+        android:id="@+id/id_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디저장"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/round_button"
         android:text="로그인"
         android:textSize="18dp"
@@ -101,14 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
 
-    <CheckBox
-        android:id="@+id/id_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디저장"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+
 
 
     <LinearLayout
@@ -146,6 +149,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_text" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:fontFamily="@font/exam"
+        android:layout_marginTop="15dp"
+        android:textSize="15dp"
+        android:layout_gravity="center"
+        />
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app.layout_constrainBottom_toBottomOf="parent"
+        app.layout_constraintEnd_toEndOf="parent"
+        app.layout_constraintStart_toStartOf="parent"
+        app.layout_constraintTop_toTopOf="parent" />
 
 
 

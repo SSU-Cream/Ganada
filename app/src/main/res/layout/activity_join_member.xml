@@ -6,46 +6,231 @@
     android:layout_height="match_parent"
     tools:context=".JoinMemberActivity">
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="400dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:hint="이메일을 입력하세요"
-        android:gravity="center"
-        android:background="@drawable/boder"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="400dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:hint="비밀번호를 입력하세요(6자리 이상)"
-        android:gravity="center"
-        android:background="@drawable/boder"
-        android:layout_marginTop="5dp"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/joinMemberButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:fontFamily="@font/exam"
-        android:backgroundTint="#282828"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+            <TextView
+                android:id="@+id/join_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/exam"
+                android:text="돌아가기"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/join_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="3.5"
+                android:text="회원가입"
+                android:fontFamily="@font/exam"
+                android:textSize="40dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/name_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="이름"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/exam"/>
+
+                <EditText
+                    android:id="@+id/sign_name"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/boder"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:ems="10"
+                    android:hint="이름을 입력하세요"
+                    android:gravity="center"
+                    android:inputType="textPersonName"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/id_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="아이디(이메일)"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/exam"/>
+
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:ems="10"
+                    android:hint="이메일을 입력하세요"
+                    android:gravity="center"
+                    android:background="@drawable/boder"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/id_name"/>
+
+                <TextView
+                    android:id="@+id/birth_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="생년월일"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/exam" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/sing_birth"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="10dp"
+                        android:ems="10"
+                        android:hint="년(4자)"
+                        android:inputType="textPersonName"
+                        android:text="" />
+
+                    <EditText
+                        android:id="@+id/sing_birth2"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="10dp"
+                        android:ems="10"
+                        android:hint="월(1자)"
+                        android:inputType="textPersonName"
+                        android:text="" />
+
+                    <EditText
+                        android:id="@+id/sing_birth3"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="10dp"
+                        android:ems="10"
+                        android:hint="일(2자)"
+                        android:inputType="textPersonName"
+                        android:text="" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/password_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="비밀번호"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/exam" />
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:ems="10"
+                    android:hint="비밀번호를 입력하세요(6자리 이상)"
+                    android:gravity="center"
+                    android:background="@drawable/boder"
+                    android:layout_marginBottom="20dp"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/password_name" />
+
+                <TextView
+                    android:id="@+id/passwd_check_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="비밀번호 확인"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/exam" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/passwd_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/boder"
+                        android:ems="10"
+                        android:hint="비밀번호 다시 입력"
+                        android:gravity="center"
+                        android:inputType="textPassword"
+                        android:text="" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/passwd_check_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="확인"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/exam" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/joinMemberButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#282828"
+                    android:fontFamily="@font/exam"
+                    android:text="회원가입"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
