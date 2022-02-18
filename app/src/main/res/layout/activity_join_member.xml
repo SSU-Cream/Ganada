@@ -109,39 +109,16 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/sing_birth"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:hint="년(4자)"
-                        android:inputType="textPersonName"
-                        android:text="" />
-
-                    <EditText
-                        android:id="@+id/sing_birth2"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:hint="월(1자)"
-                        android:inputType="textPersonName"
-                        android:text="" />
-
-                    <EditText
-                        android:id="@+id/sing_birth3"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:hint="일(2자)"
-                        android:inputType="textPersonName"
-                        android:text="" />
-
+                    <DatePicker
+                        android:id="@+id/dayspin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:datePickerMode="spinner"
+                        android:calendarViewShown="false"/>
+                    <DatePicker
+                        android:id="@+id/dayCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
