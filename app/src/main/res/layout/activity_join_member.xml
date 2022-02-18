@@ -62,15 +62,14 @@
                 <EditText
                     android:id="@+id/sign_name"
                     android:layout_width="wrap_content"
+                    android:background="@drawable/boder"
                     android:layout_height="30dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/boder"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="이름을 입력하세요"
+                    android:gravity="center"
                     android:inputType="textPersonName"
-                    android:text=""
-                    tools:ignore="TouchTargetSizeCheck" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/id_name"
@@ -86,16 +85,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/boder"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="이메일을 입력하세요"
+                    android:gravity="center"
+                    android:background="@drawable/boder"
                     android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/id_name"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/id_name"/>
 
                 <TextView
                     android:id="@+id/birth_text"
@@ -111,42 +109,16 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/sign_birth"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:ems="10"
-                        android:hint="년(4자)"
-                        android:inputType="textPersonName"
-                        android:text=""
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                    <EditText
-                        android:id="@+id/sign_birth2"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:ems="10"
-                        android:hint="월(1자)"
-                        android:inputType="textPersonName"
-                        android:text=""
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                    <EditText
-                        android:id="@+id/sign_birth3"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:ems="10"
-                        android:hint="일(2자)"
-                        android:inputType="textPersonName"
-                        android:text=""
-                        tools:ignore="TouchTargetSizeCheck" />
-
+                    <DatePicker
+                        android:id="@+id/dayspin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:datePickerMode="spinner"
+                        android:calendarViewShown="false"/>
+                    <DatePicker
+                        android:id="@+id/dayCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
@@ -163,17 +135,16 @@
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/boder"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="비밀번호를 입력하세요(6자리 이상)"
+                    android:gravity="center"
+                    android:background="@drawable/boder"
+                    android:layout_marginBottom="20dp"
                     android:inputType="textPassword"
                     android:minHeight="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/password_name"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/password_name" />
 
                 <TextView
                     android:id="@+id/passwd_check_name"
@@ -195,11 +166,10 @@
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/boder"
                         android:ems="10"
-                        android:gravity="center"
                         android:hint="비밀번호 다시 입력"
+                        android:gravity="center"
                         android:inputType="textPassword"
-                        android:text=""
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:text="" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/passwd_check_button"
@@ -207,11 +177,10 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/round_button"
-                        android:fontFamily="@font/exam"
                         android:text="확인"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:fontFamily="@font/exam" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -226,8 +195,7 @@
                     android:textColor="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
 
             </LinearLayout>
