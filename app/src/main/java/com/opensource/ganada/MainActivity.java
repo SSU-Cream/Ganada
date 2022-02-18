@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private CheckBox id_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,17 @@ public class MainActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         Button joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
         Button loginButton = (Button) findViewById(R.id.loginButton);
+        Button forget_idpw = (Button) findViewById(R.id.forget_idpw);
+        id_check = (CheckBox) findViewById(R.id.id_check);
         SignInButton googleLoginButton = (SignInButton) findViewById(R.id.googleLoginButton);
+
+        SharedPreferences pref = getSharedPreferences("pref", 0);
+        String email = pref.getString("email", "");
+        String password = pref.getString("password", "");
+        boolean cb = pref.getBoolean("cb", false);
+        editTextEmail.setText(email);
+        editTextPassword.setText(password);
+        id_check.setChecked(cb);
 
         joinMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +74,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        forget_idpw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "아직 안만들어진 기능입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (id_check.isChecked())
+                    saveID();
+                else {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.commit();
+                }
                 loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
@@ -126,5 +153,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    public void saveID() {
+        SharedPreferences pref = getSharedPreferences("pref", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("email", editTextEmail.getText().toString());
+        editor.putString("password", editTextPassword.getText().toString());
+        editor.putBoolean("cb", id_check.isChecked());
+        editor.commit();
     }
 }

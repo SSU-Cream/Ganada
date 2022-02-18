@@ -29,10 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="0dp"
+        android:fontFamily="@font/exam"
         android:gravity="center"
         android:text="입모양 시뮬레이션"
         android:textColor="#147FFF"
-        android:fontFamily="@font/exam"
         android:textSize="25dp">
 
     </TextView>
@@ -90,10 +90,11 @@
         android:id="@+id/id_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아이디저장"
         android:layout_gravity="center"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"
+        android:text="아이디저장"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/loginButton"
@@ -128,26 +129,28 @@
             android:layout_weight="5"
             android:background="@drawable/round_button2"
             android:backgroundTint="#69EEA8"
-            android:text="ID/PW찾기"
             android:fontFamily="@font/exam"
-            android:textSize="18dp"
+            android:text="ID/PW찾기"
             android:textColor="#FFFFFF"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_text" />
+            app:layout_constraintTop_toBottomOf="@+id/login_text"
+            tools:ignore="TouchTargetSizeCheck" />
 
-    <Button
-        android:id="@+id/joinMemberButton"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:layout_weight="5"
-        android:layout_gravity="center"
-        android:background="@drawable/round_button2"
-        android:fontFamily="@font/exam"
-        android:text="회원가입"
-        android:textSize="18dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_text" />
+        <Button
+            android:id="@+id/joinMemberButton"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:background="@drawable/round_button2"
+            android:fontFamily="@font/exam"
+            android:text="회원가입"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_text"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <TextView
@@ -161,13 +164,14 @@
         />
 
     <com.google.android.gms.common.SignInButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:id="@+id/googleLoginButton"
         app.layout_constrainBottom_toBottomOf="parent"
         app.layout_constraintEnd_toEndOf="parent"
         app.layout_constraintStart_toStartOf="parent"
-        app.layout_constraintTop_toTopOf="parent" />
+        app.layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
 
 
 
