@@ -2,16 +2,48 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.opensource.ganada">
 
+    <!-- 외부 URL로부터 동영상을 스트리밍하기 위한 권한. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 재생중 화면 어두워짐, 잠김 방지하기 위한 권한. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ganada">
+        android:theme="@style/Theme.Ganada"
+        android:usesCleartextTraffic="true" > // video permission
+        <activity android:name=".CommunityActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PracticeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ManageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MenuActivity"
-            android:exported="false" />
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".JoinMemberActivity"
             android:exported="false" />

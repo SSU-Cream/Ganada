@@ -6,15 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MenuActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:text="곧 메뉴 화면이 될 페이지 입니다."
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="342dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/buttonList"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/manageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Manage Children" />
+
+        <Button
+            android:id="@+id/practiceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Practice" />
+
+
+        <Button
+            android:id="@+id/communityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Community" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/homeButton"
@@ -24,5 +49,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonList" />
 </androidx.constraintlayout.widget.ConstraintLayout>
