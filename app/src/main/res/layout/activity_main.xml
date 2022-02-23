@@ -165,13 +165,12 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginButton"
-        app.layout_constrainBottom_toBottomOf="parent"
-        app.layout_constraintEnd_toEndOf="parent"
-        app.layout_constraintStart_toStartOf="parent"
-        app.layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp" />
+
+
 
 
 
