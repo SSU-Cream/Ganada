@@ -1,68 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MenuActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_1"
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        tools:ignore="MissingConstraints" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
 
-    <Button
-        android:id="@+id/practiceButton"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:text="Practice"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/practiceButton"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:text="연습하기"
+            android:textSize="30dp"
+            android:fontFamily="@font/exam"
+            android:background="@drawable/round_button3"
+            android:drawableTop="@drawable/practice"
+            android:padding="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.129"
+            tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/manageButton"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:text="Manage Children"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129" />
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:text="학습하기"
+            android:textSize="30dp"
+            android:fontFamily="@font/exam"
+            android:background="@drawable/round_button3"
+            android:drawableTop="@drawable/study"
+            android:padding="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.129" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/communityButton"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="5dp"
-        android:text="Community"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.129" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/QandA"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:text="HOW TO USE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.129"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/communityButton"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="20dp"
+            android:text="소통창구"
+            android:textSize="30dp"
+            android:fontFamily="@font/exam"
+            android:background="@drawable/round_button3"
+            android:drawableTop="@drawable/speaker"
+            android:padding="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.129" />
+
+        <Button
+            android:id="@+id/manageButton"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:text="회원관리"
+            android:textSize="30dp"
+            android:fontFamily="@font/exam"
+            android:background="@drawable/round_button3"
+            android:drawableTop="@drawable/manage"
+            android:padding="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.129"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
