@@ -1,8 +1,10 @@
 package com.opensource.ganada;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,10 +29,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private static final int RC_SIGN_IN = 10;
     private GoogleSignInClient mGoogleSignInClient;
     private EditText editTextEmail;
@@ -78,7 +89,29 @@ public class MainActivity extends AppCompatActivity {
         forget_idpw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "아직 안만들어진 기능입니다.", Toast.LENGTH_SHORT).show();
+                View dlgView = (View)View.inflate(MainActivity.this, R.layout.find_member, null);
+                AlertDialog.Builder find_email_dlg = new AlertDialog.Builder(MainActivity.this);
+                find_email_dlg.setTitle("이메일/비밀번호 찾기");
+                find_email_dlg.setIcon(R.drawable.pic1);
+                find_email_dlg.setView(dlgView);
+                find_email_dlg.setPositiveButton("찾기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final EditText dlg_user_name = dlgView.findViewById(R.id.dlg_user_name);
+                        final DatePicker dlg_dayspin = dlgView.findViewById(R.id.dlg_dayspin);
+                        String find_name = dlg_user_name.getText().toString();
+                        String find_birth = String.format("%d-%d-%d", dlg_dayspin.getYear(), dlg_dayspin.getMonth(),dlg_dayspin.getDayOfMonth());
+                        //Toast.makeText(getApplicationContext(), find_name + find_birth, Toast.LENGTH_SHORT).show();
+                        find_email_pwd(find_name, find_birth);
+                    }
+                });
+                find_email_dlg.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                find_email_dlg.show();
             }
         });
 
@@ -173,5 +206,27 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("password", editTextPassword.getText().toString());
         editor.putBoolean("cb", id_check.isChecked());
         editor.commit();
+    }
+
+    public void find_email_pwd(String name, String birth) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterator<DataSnapshot> child = snapshot.getChildren().iterator();
+                while(child.hasNext()) {
+                    if(child.next().getKey().equals(name)) {
+                        Toast.makeText(getApplicationContext(),"있습니다.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                Toast.makeText(getApplicationContext(),"없습니다.",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //
+            }
+        });
     }
 }
