@@ -1,6 +1,7 @@
 package com.opensource.ganada;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +14,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MenuActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
         Button manageButton = (Button) findViewById(R.id.manageButton);
         Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
