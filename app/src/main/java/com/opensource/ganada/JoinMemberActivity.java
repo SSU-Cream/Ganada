@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,11 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 public class JoinMemberActivity extends AppCompatActivity {
 
@@ -50,7 +46,7 @@ public class JoinMemberActivity extends AppCompatActivity {
         passwd_check = (EditText) findViewById(R.id.passwd_check);
         dayPicker = (DatePicker) findViewById(R.id.dayspin);
         Button joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
-        Button passwd_check_button = (Button) findViewById(R.id.passwd_check_button);
+        Button passwd_check_button = (Button) findViewById(R.id.find_email_pwd_button);
 
         dayPicker.setMaxDate(System.currentTimeMillis());        // DatePicker 최대선택날짜 현재시간으로 제한
 
@@ -86,9 +82,6 @@ public class JoinMemberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -113,7 +106,7 @@ public class JoinMemberActivity extends AppCompatActivity {
     public void createUser(String email, String password) {
         // Exception to allow all Edittexts to be entered
         String name = sign_name.getText().toString();
-        String birth = String.format("%d-%d-%d", dayPicker.getYear(),dayPicker.getMonth(), dayPicker.getDayOfMonth());
+        String birth = String.format("%d-%d-%d", dayPicker.getYear(),dayPicker.getMonth()+1, dayPicker.getDayOfMonth());
         if (name.equals("")) { Toast.makeText(JoinMemberActivity.this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
         if (email.equals("")) { Toast.makeText(JoinMemberActivity.this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
         if (password.equals("")) { Toast.makeText(JoinMemberActivity.this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
@@ -127,7 +120,11 @@ public class JoinMemberActivity extends AppCompatActivity {
                             final String uid = task.getResult().getUser().getUid();     // UID(Unified ID) 생성
                             UserModel userModel = new UserModel(name, birth, uid);
                             mDatabase.child("users").child(uid).setValue(userModel);    // 데이터베이스에 (UID,이름,생년월일) 저장
+                            mDatabase.child("findData").child(name+birth).setValue(email+"!"+password);
                             Toast.makeText(JoinMemberActivity.this, "회원가입을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(JoinMemberActivity.this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                         }

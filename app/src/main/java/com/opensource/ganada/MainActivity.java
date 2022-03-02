@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,6 +35,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.Iterator;
 
@@ -89,29 +92,7 @@ public class MainActivity extends AppCompatActivity {
         forget_idpw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View dlgView = (View)View.inflate(MainActivity.this, R.layout.find_member, null);
-                AlertDialog.Builder find_email_dlg = new AlertDialog.Builder(MainActivity.this);
-                find_email_dlg.setTitle("이메일/비밀번호 찾기");
-                find_email_dlg.setIcon(R.drawable.pic1);
-                find_email_dlg.setView(dlgView);
-                find_email_dlg.setPositiveButton("찾기", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final EditText dlg_user_name = dlgView.findViewById(R.id.dlg_user_name);
-                        final DatePicker dlg_dayspin = dlgView.findViewById(R.id.dlg_dayspin);
-                        String find_name = dlg_user_name.getText().toString();
-                        String find_birth = String.format("%d-%d-%d", dlg_dayspin.getYear(), dlg_dayspin.getMonth(),dlg_dayspin.getDayOfMonth());
-                        //Toast.makeText(getApplicationContext(), find_name + find_birth, Toast.LENGTH_SHORT).show();
-                        find_email_pwd(find_name, find_birth);
-                    }
-                });
-                find_email_dlg.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                find_email_dlg.show();
+                show_email_pwd_dlg(null,null);
             }
         });
 
@@ -209,18 +190,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void find_email_pwd(String name, String birth) {
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        String findKey = name + birth;
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Iterator<DataSnapshot> child = snapshot.getChildren().iterator();
-                while(child.hasNext()) {
-                    if(child.next().getKey().equals(name)) {
-                        Toast.makeText(getApplicationContext(),"있습니다.",Toast.LENGTH_SHORT).show();
-                        return;
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    if(child.getKey().equals(findKey)) {
+                        String user_email_pwd = child.getValue().toString();
+                        int idx = user_email_pwd.indexOf("!");
+                        String email = user_email_pwd.substring(0,idx);
+                        String password = user_email_pwd.substring(idx+1);
+                        show_email_pwd_dlg(email,password);
                     }
                 }
-                Toast.makeText(getApplicationContext(),"없습니다.",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -228,5 +211,37 @@ public class MainActivity extends AppCompatActivity {
                 //
             }
         });
+    }
+
+    public void show_email_pwd_dlg(String email, String password) {
+        View dlgView = (View)View.inflate(MainActivity.this, R.layout.find_member, null);
+        AlertDialog.Builder find_email_dlg = new AlertDialog.Builder(MainActivity.this);
+        find_email_dlg.setTitle("이메일/비밀번호 찾기");
+        find_email_dlg.setIcon(R.drawable.pic1);
+        find_email_dlg.setView(dlgView);
+        if(email!=null) {
+            final TextView show_email = dlgView.findViewById(R.id.show_email);
+            final TextView show_password = dlgView.findViewById(R.id.show_password);
+            show_email.setText(email);
+            show_password.setText(password);
+        }
+        Button find_email_pwd_button = dlgView.findViewById(R.id.find_email_pwd_button);
+        find_email_pwd_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText dlg_user_name = dlgView.findViewById(R.id.dlg_user_name);
+                final DatePicker dlg_dayspin = dlgView.findViewById(R.id.dlg_dayspin);
+                String find_name = dlg_user_name.getText().toString();
+                String find_birth = String.format("%d-%d-%d", dlg_dayspin.getYear(), dlg_dayspin.getMonth()+1,dlg_dayspin.getDayOfMonth());
+                find_email_pwd(find_name, find_birth);
+            }
+        });
+        find_email_dlg.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        find_email_dlg.show();
     }
 }

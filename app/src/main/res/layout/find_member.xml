@@ -16,7 +16,7 @@
         android:id="@+id/dlg_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,19 +32,39 @@
         android:datePickerMode="spinner"
         android:calendarViewShown="false"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="이메일 보여지는 곳"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="비밀번호 보여지는 곳"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/show_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="이메일 보여지는 곳"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/show_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호 보여지는 곳"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/find_email_pwd_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="찾기"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>>
 </LinearLayout>

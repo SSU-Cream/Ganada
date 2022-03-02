@@ -20,7 +20,6 @@
         android:textColor="#FF5A5A"
         android:fontFamily="@font/exam"
         android:textSize="70dp">
-
     </TextView>
 
     <TextView
@@ -34,7 +33,6 @@
         android:text="입모양 시뮬레이션"
         android:textColor="#147FFF"
         android:textSize="25dp">
-
     </TextView>
 
     <ImageView
@@ -46,10 +44,7 @@
         android:layout_marginBottom="16dp"
         android:background="@null"
         android:src="@drawable/pic1">
-
     </ImageView>
-
-
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -174,20 +169,13 @@
         android:layout_gravity="center"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:/>
+        android:layout_marginLeft="5dp" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/faceLoginButton"
         android:layout_gravity="center"
         android:layout_width="200dp"
         android:layout_height="wrap_content"/>
-
-
-
-
-
-
-</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
