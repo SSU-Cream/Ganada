@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -49,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private CheckBox id_check;
+    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
         editTextPassword.setText(password);
         id_check.setChecked(cb);
 
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (id_check.isChecked())
+                    saveID();
+                else {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.commit();
+                }
+                loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+            }
+        });
+
         joinMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,23 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (id_check.isChecked())
-                    saveID();
-                else {
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.commit();
-                }
-                loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
-
         googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +126,28 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginButton faceLoginButton = findViewById(R.id.faceLoginButton);
+        faceLoginButton.setReadPermissions("email", "public_profile");
+        faceLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+            }
+        });
+
     }
 
     /*
@@ -127,12 +155,18 @@ public class MainActivity extends AppCompatActivity {
     아이디, 비밀번호를 통해 로그인하는 코드
     */
     public void loginUser(String email, String password) {
+        if (email.equals("")) { Toast.makeText(MainActivity.this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
+        if (password.equals("")) { Toast.makeText(MainActivity.this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(MainActivity.this, "가입되지 않은 계정입니다.", Toast.LENGTH_SHORT).show();
                         }
@@ -147,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -170,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                            startActivity(intent);
                         } else {
                         }
                     }
@@ -177,9 +215,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    The code to save your ID.
-    아이디 저장
-    */
+    A code that imports a user's token from Facebook, exchanges it with firebase user information, and authenticates it.
+    페이스북에서 사용자의 토큰은 가져와 파이어베이스 사용자 정보로 교환하고 인증을 받는 코드
+     */
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                        }
+                    }
+                });
+    }
+
     public void saveID() {
         SharedPreferences pref = getSharedPreferences("pref", 0);
         SharedPreferences.Editor editor = pref.edit();
@@ -189,30 +241,10 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    public void find_email_pwd(String name, String birth) {
-        String findKey = name + birth;
-        mDatabase = FirebaseDatabase.getInstance().getReference("findData");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child : snapshot.getChildren()) {
-                    if(child.getKey().equals(findKey)) {
-                        String user_email_pwd = child.getValue().toString();
-                        int idx = user_email_pwd.indexOf("!");
-                        String email = user_email_pwd.substring(0,idx);
-                        String password = user_email_pwd.substring(idx+1);
-                        show_email_pwd_dlg(email,password);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //
-            }
-        });
-    }
-
+    /*
+    Create a dialog that shows the lost email and password.
+    잃버버린 이메일, 비밀번호를 보여주는 다이얼로그 생성
+    */
     public void show_email_pwd_dlg(String email, String password) {
         View dlgView = (View)View.inflate(MainActivity.this, R.layout.find_member, null);
         AlertDialog.Builder find_email_dlg = new AlertDialog.Builder(MainActivity.this);
@@ -244,4 +276,33 @@ public class MainActivity extends AppCompatActivity {
         });
         find_email_dlg.show();
     }
+
+    /*
+    A code that finds an email and password with membership information.
+    회원 정보로 이메일과 비밀번호를 찾아주는 코드
+     */
+    public void find_email_pwd(String name, String birth) {
+        String findKey = name + birth;
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    if(child.getKey().equals(findKey)) {
+                        String user_email_pwd = child.getValue().toString();
+                        int idx = user_email_pwd.indexOf("!");
+                        String email = user_email_pwd.substring(0,idx);
+                        String password = user_email_pwd.substring(idx+1);
+                        show_email_pwd_dlg(email,password);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //
+            }
+        });
+    }
+
 }
