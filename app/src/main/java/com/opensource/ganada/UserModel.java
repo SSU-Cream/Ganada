@@ -1,9 +1,9 @@
 package com.opensource.ganada;
 
 public class UserModel {
-    public String name;
-    public String birth;
-    public String uid;
+    private String name;
+    private String birth;
+    private String uid;
 
     public UserModel() {}
 
@@ -11,5 +11,29 @@ public class UserModel {
         this.uid = uid;
         this.name = name;
         this.birth = birth;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
