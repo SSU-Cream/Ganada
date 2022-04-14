@@ -43,24 +43,7 @@ public class CommunityActivity extends AppCompatActivity {
 
         adapter = new PostAdapter(getApplicationContext());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postItems.clear();
-                for(DataSnapshot child : snapshot.getChildren()) {
-                    PostItem postItem = child.getValue(PostItem.class);
-                    postItems.add(postItem);
-                    adapter.addItem(postItem);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        getPostDatas(adapter,postItems);
 
         recyclerView.setAdapter(adapter);
 
@@ -69,6 +52,9 @@ public class CommunityActivity extends AppCompatActivity {
             public void onItemClick(PostAdapter.ViewHolder holder, View view, int position) {
                 PostItem item = adapter.getItem(position);
                 Toast.makeText(getApplicationContext(), "아이템 선택됨 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ShowPost.class);
+                intent.putExtra("item",item);
+                startActivity(intent);
             }
         });
 
@@ -95,6 +81,27 @@ public class CommunityActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void getPostDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postItems.clear();
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    PostItem postItem = child.getValue(PostItem.class);
+                    postItems.add(postItem);
+                    adapter.addItem(postItem);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

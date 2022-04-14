@@ -85,7 +85,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
         public void setItem(PostItem item) {
             post_title.setText(item.getTitle());
-            post_writer.setText(item.getWriter());
+            if(!item.isAnnoymity())
+                post_writer.setText(item.getWriter());
+            else
+                post_writer.setText("anonymous");
             post_date.setText(item.getDate());
         }
         public void setOnItemClickListener(OnItemClickListener listener) {
