@@ -54,6 +54,7 @@ public class CommunityActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "아이템 선택됨 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ShowPost.class);
                 intent.putExtra("item",item);
+                finish();
                 startActivity(intent);
             }
         });

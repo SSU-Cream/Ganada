@@ -8,7 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ShowPost extends AppCompatActivity {
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,11 @@ public class ShowPost extends AppCompatActivity {
         delete_post_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts").child(postItem.getPost_key());
+                mDatabase.removeValue();
+                finish();
+                Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
+                startActivity(intent);
             }
         });
 
