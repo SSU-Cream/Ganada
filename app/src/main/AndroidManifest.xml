@@ -19,6 +19,9 @@
         <activity
             android:name=".Posting"
             android:exported="false" />
+        <activity
+            android:name=".RevisePost"
+            android:exported="false" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

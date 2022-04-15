@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,12 +30,18 @@ public class ShowPost extends AppCompatActivity {
         TextView show_post_date = (TextView) findViewById(R.id.show_post_date);
         TextView show_post_content = (TextView) findViewById(R.id.show_post_content);
         show_post_title.setText(postItem.getTitle());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(!postItem.isAnnoymity())
             show_post_writer.setText(postItem.getWriter());
         else
             show_post_writer.setText("anonymous");
         show_post_date.setText(postItem.getDate());
         show_post_content.setText(postItem.getContent());
+
+        if(!user.getEmail().equals(postItem.getWriter())) {
+            delete_post_button.setVisibility(View.INVISIBLE);
+            revise_post_button.setVisibility(View.INVISIBLE);
+        }
 
         delete_post_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +57,10 @@ public class ShowPost extends AppCompatActivity {
         revise_post_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RevisePost.class);
+                intent.putExtra("item",postItem);
+                finish();
+                startActivity(intent);
             }
         });
 

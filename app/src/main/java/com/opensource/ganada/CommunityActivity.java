@@ -69,23 +69,6 @@ public class CommunityActivity extends AppCompatActivity {
         });
     }
 
-    public void getPostKeys() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("post_keys");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> post_keys = new ArrayList<String>();
-                for(DataSnapshot child : snapshot.getChildren()) {
-                    post_keys.add(child.getKey().toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
     public void getPostDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
         mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
