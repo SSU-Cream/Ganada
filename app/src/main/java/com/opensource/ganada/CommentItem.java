@@ -1,27 +1,33 @@
 package com.opensource.ganada;
 
-import java.io.Serializable;
-
-public class PostItem implements Serializable {
+public class CommentItem {
+    private String comment_key;
     private String post_key;
-    private String title;
     private String writer;
     private String content;
     private String date;
     private String like;
     private boolean annoymity;
 
-    public PostItem() {
+    public CommentItem() {
     }
 
-    public PostItem(String post_key, String title, String writer, String content, String date, String like, boolean annoymity) {
+    public CommentItem(String comment_key, String post_key, String writer, String content, String date, String like, boolean annoymity) {
+        this.comment_key = comment_key;
         this.post_key = post_key;
-        this.title = title;
         this.writer = writer;
         this.content = content;
         this.date = date;
         this.like = like;
         this.annoymity = annoymity;
+    }
+
+    public String getComment_key() {
+        return comment_key;
+    }
+
+    public void setComment_key(String comment_key) {
+        this.comment_key = comment_key;
     }
 
     public String getPost_key() {
@@ -30,14 +36,6 @@ public class PostItem implements Serializable {
 
     public void setPost_key(String post_key) {
         this.post_key = post_key;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getWriter() {
@@ -78,5 +76,18 @@ public class PostItem implements Serializable {
 
     public void setAnnoymity(boolean annoymity) {
         this.annoymity = annoymity;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentItem{" +
+                "comment_key='" + comment_key + '\'' +
+                ", post_key='" + post_key + '\'' +
+                ", writer='" + writer + '\'' +
+                ", content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", like='" + like + '\'' +
+                ", annoymity=" + annoymity +
+                '}';
     }
 }
