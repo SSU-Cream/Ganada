@@ -1,10 +1,12 @@
 package com.opensource.ganada;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,12 +29,15 @@ public class CommunityActivity extends AppCompatActivity {
     PostAdapter adapter;
     Button addPost;
     ArrayList<PostItem> postItems;
+    public static Context context_community;
+    public int var;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
+        context_community = this;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         addPost = (Button) findViewById(R.id.addPost);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -52,6 +57,7 @@ public class CommunityActivity extends AppCompatActivity {
             public void onItemClick(PostAdapter.ViewHolder holder, View view, int position) {
                 PostItem item = adapter.getItem(position);
                 Toast.makeText(getApplicationContext(), "아이템 선택됨 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                finish();
                 Intent intent = new Intent(getApplicationContext(), ShowPost.class);
                 intent.putExtra("item",item);
                 startActivity(intent);
@@ -61,11 +67,21 @@ public class CommunityActivity extends AppCompatActivity {
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 Intent intent = new Intent(getApplicationContext(), Posting.class);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == RESULT_OK) {
+            Intent intent = getIntent();
+            PostItem postItem = (PostItem) data.getSerializableExtra("item");
+            adapter.addItem(postItem);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void getPostDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {

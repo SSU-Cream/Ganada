@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +132,8 @@ public class ShowPost extends AppCompatActivity {
             items.add(item);
         }
 
+        public void deleteItem(CommentItem item) { items.remove(item); }
+
         @Override
         public Object getItem(int position) {
             return items.get(position);
@@ -151,6 +156,15 @@ public class ShowPost extends AppCompatActivity {
             commentItemView.setWriter(item.getWriter(),item.isAnnoymity());
             commentItemView.setDate(item.getDate());
             commentItemView.setContent(item.getContent());
+
+            Button delete_comment_button = (Button) commentItemView.findViewById(R.id.delete_comment_button);
+            if(!user.getEmail().equals(item.getWriter())) delete_comment_button.setVisibility(View.INVISIBLE);
+            delete_comment_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    show_dialog_delete_comment(item);
+                }
+            });
             return commentItemView;
         }
     }
@@ -244,5 +258,27 @@ public class ShowPost extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String getTime = dateFormat.format(date);
         return getTime;
+    }
+
+    private void show_dialog_delete_comment(CommentItem item) {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(ShowPost.this);
+        dlg.setTitle("삭제 하시겠습니까?");
+        dlg.setMessage(item.getContent() + "\n댓글을 삭제하시겠습니까?");
+        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                delete_comment(item);
+                Toast.makeText(getApplicationContext(), "삭제 되었습니다", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+            }
+        });
+        dlg.show();
+    }
+
+    private void delete_comment(CommentItem item) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("comments").child(item.getPost_key()).child(item.getComment_key());
+        mDatabase.removeValue();
+        adapter.deleteItem(item);
+        adapter.notifyDataSetChanged();
     }
 }

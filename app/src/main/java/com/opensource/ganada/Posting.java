@@ -3,6 +3,7 @@ package com.opensource.ganada;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,9 +88,10 @@ public class Posting extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        finish();
-        Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent();
+        intent.putExtra("item",postItem);
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 
 }
