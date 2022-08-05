@@ -7,6 +7,6 @@
     app:title="가나다"
     app:titleTextColor="@color/white"
     android:background="@color/purple_200"
-    app:menu="@menu/mainmenu">
+    app:menu="@menu/menu">
 
 </androidx.appcompat.widget.Toolbar>

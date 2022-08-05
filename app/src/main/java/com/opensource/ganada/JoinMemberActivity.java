@@ -44,7 +44,7 @@ public class JoinMemberActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         sign_name = (EditText) findViewById(R.id.sign_name);
         passwd_check = (EditText) findViewById(R.id.passwd_check);
-        dayPicker = (DatePicker) findViewById(R.id.dayspin);
+        dayPicker = (DatePicker) findViewById(R.id.revise_dayspin);
         Button joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
         Button passwd_check_button = (Button) findViewById(R.id.find_email_pwd_button);
 

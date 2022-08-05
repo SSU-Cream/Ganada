@@ -112,7 +112,7 @@
                     android:orientation="horizontal">
 
                     <DatePicker
-                        android:id="@+id/dayspin"
+                        android:id="@+id/revise_dayspin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:datePickerMode="spinner"
