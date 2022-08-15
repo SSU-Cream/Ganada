@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/register_student_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="학생 등록" />
 
     <Button
         android:id="@+id/button3"

@@ -1,6 +1,7 @@
 package com.opensource.ganada;
 
 public class StudentItem {
+    private int studentNum;
     private String name;
     private int age;
     private String detailedRecord;
@@ -9,6 +10,14 @@ public class StudentItem {
         this.name = name;
         this.age = age;
         this.detailedRecord = detailedRecord;
+    }
+
+    public int getStudentNum() {
+        return studentNum;
+    }
+
+    public void setStudentNum(int studentNum) {
+        this.studentNum = studentNum;
     }
 
     public String getName() {
