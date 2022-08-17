@@ -1,10 +1,15 @@
 package com.opensource.ganada;
 
-public class StudentItem {
+import java.io.Serializable;
+
+public class StudentItem implements Serializable {
     private int studentNum;
     private String name;
     private int age;
-    private String detailedRecord;
+    private String detailedRecord="";
+
+    public StudentItem() {
+    }
 
     public StudentItem(String name, int age, String detailedRecord) {
         this.name = name;

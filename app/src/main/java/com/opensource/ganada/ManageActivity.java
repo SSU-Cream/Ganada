@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,15 +58,25 @@ public class ManageActivity extends AppCompatActivity {
 
         getStudentsDatas(adapter,studentItems);
 
-        //adapter.addItem(new StudentItem("아기1", 5, "한글 개 못함"));
-        adapter.addItem(new StudentItem("아기2", 7, "혀가 2CM"));
-
         recyclerView.setAdapter(adapter);
 
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 show_register_student_dlg();
+            }
+        });
+
+        adapter.setOnItemClickListener(new StudentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(StudentAdapter.ViewHolder holder, View view, int position) {
+                StudentItem item = adapter.getItem(position);
+                Toast.makeText(getApplicationContext(),"아이템 선택됨 : " + item.getName(), Toast.LENGTH_SHORT).show();
+
+                finish();
+                Intent intent = new Intent(getApplicationContext(), ShowStudentInfo.class);
+                intent.putExtra("item",item);
+                startActivity(intent);
             }
         });
 
@@ -85,6 +96,8 @@ public class ManageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 studentItems.clear();
+                int idx=0;
+                String names="";
                 for(DataSnapshot child : snapshot.getChildren()) {
                     StudentItem studentItem = child.getValue(StudentItem.class);
                     studentItems.add(studentItem);
@@ -132,7 +145,7 @@ public class ManageActivity extends AppCompatActivity {
 
     public void register_student(String name, int age) {
         StudentItem item = new StudentItem(name,age,"");
-        mDatabase = FirebaseDatabase.getInstance().getReference("students");
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

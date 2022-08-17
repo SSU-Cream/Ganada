@@ -16,6 +16,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
     ArrayList<StudentItem> items = new ArrayList<StudentItem>();
 
+    OnItemClickListener listener;
+
+    public static interface OnItemClickListener {
+        public void onItemClick(ViewHolder holder, View view, int position);
+    }
 
     public StudentAdapter(Context context) {
         this.context = context;
@@ -37,6 +42,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StudentItem item = items.get(position);
         holder.setItem(item);
+        holder.setOnItemClickListener(listener);
     }
 
     public void addItem(StudentItem item) {
@@ -51,14 +57,29 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         return items.get(position);
     }
 
-    static  class ViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView studentAge;
         TextView studentName;
+        OnItemClickListener listener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             studentAge = (TextView) itemView.findViewById(R.id.studentAge);
             studentName = (TextView) itemView.findViewById(R.id.studentName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null) {
+                        listener.onItemClick(ViewHolder.this, view, position);
+                    }
+                }
+            });
         }
 
         public void setItem(StudentItem item) {
@@ -66,5 +87,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             studentName.setText(item.getName());
         }
 
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            this.listener = listener;
+        }
     }
 }
