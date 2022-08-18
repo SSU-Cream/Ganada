@@ -36,4 +36,10 @@
         android:hint="비고"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="수정" />
 </LinearLayout>
