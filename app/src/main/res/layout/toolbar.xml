@@ -6,7 +6,8 @@
     android:id="@+id/toolbar"
     app:title="가나다"
     app:titleTextColor="@color/white"
-    android:background="@color/purple_200"
+    android:background="#86EEFC"
     app:menu="@menu/menu">
+    <!-- android:background="@color/purple_200" -->
 
 </androidx.appcompat.widget.Toolbar>
