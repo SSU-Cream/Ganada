@@ -3,24 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_back"
+        android:id="@+id/all_menu"
         android:enabled="true"
         android:title="메뉴1"
-        android:icon="@drawable/back"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_question"
-        android:enabled="true"
-        android:icon="@drawable/question"
-        android:title="메뉴2"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_logout"
-        android:enabled="true"
-        android:icon="@drawable/logout"
-        android:title="메뉴3"
+        android:icon="@drawable/hamburger"
         app:showAsAction="always"/>
 
 </menu>

@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         manageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,19 +68,13 @@ public class MenuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
         switch (item.getItemId()) {
-            case R.id.menu_back:
-                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_question:
-                Toast.makeText(getApplicationContext(), "문의사항 버튼 클릭됨", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_logout:
-                Toast.makeText(getApplicationContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                signOut();
-                return true;
-            default:
+            case R.id.all_menu:
                 Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
                 return super.onOptionsItemSelected(item);
+
+            default:
+                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+                return true;
         }
     }
 
