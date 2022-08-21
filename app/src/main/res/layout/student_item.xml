@@ -2,46 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/studentAge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/studentAge"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:hint="age"
-            android:textColor="#0277BD"
-            android:textAlignment="center"
-            android:textSize="25dp" />
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_line" />
-
-        <TextView
-            android:id="@+id/studentName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="name"
-            android:textAlignment="center"
-            android:textColor="#0277BD"
-            android:textSize="25dp" />
-
-    </LinearLayout>
+        android:layout_height="50dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:hint="age"
+        android:background="#ECECEC"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:textSize="25dp" />
 
     <View
-        android:id="@+id/view1"
+        android:id="@+id/view3"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_line" />
+
+    <TextView
+        android:id="@+id/studentName"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/gradient_line" />
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="name"
+        android:textAlignment="center"
+        android:background="#ECECEC"
+        android:textColor="#000000"
+        android:textSize="25dp" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,9 +28,12 @@ public class MenuActivity extends AppCompatActivity {
         Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        toolbarText.setText("메뉴");
 
         manageButton.setOnClickListener(new View.OnClickListener() {
             @Override

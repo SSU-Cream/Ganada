@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,8 +48,9 @@ public class ManageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle("바꿈");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
@@ -57,6 +60,8 @@ public class ManageActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.studentRecyclerView);
         register_button = (Button) findViewById(R.id.register_student_button);
         studentItems = new ArrayList<StudentItem>();
+        toolbarText.setText("학습 아동 관리");
+        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
