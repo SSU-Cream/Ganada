@@ -93,7 +93,7 @@
         <Button
             android:id="@+id/register_student_button"
             android:layout_width="130dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_button2"
