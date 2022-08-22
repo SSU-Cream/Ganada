@@ -31,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ManageActivity extends AppCompatActivity {
-    Button button3;
     Button register_button;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -91,7 +90,28 @@ public class ManageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //추가된 소스, ToolBar에 menu.xml을 인플레이트함
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
+        switch (item.getItemId()) {
+            case R.id.all_menu:
+                Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
+                return super.onOptionsItemSelected(item);
+
+            default:
+                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+                return true;
+        }
     }
 
     public void getStudentsDatas(StudentAdapter adapter, ArrayList<StudentItem> studentItems) {
@@ -168,28 +188,6 @@ public class ManageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //추가된 소스, ToolBar에 menu.xml을 인플레이트함
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
-        switch (item.getItemId()) {
-            case R.id.all_menu:
-                Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
-                return super.onOptionsItemSelected(item);
-
-            default:
-                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
-                return true;
-        }
     }
 
     private void signOut() {

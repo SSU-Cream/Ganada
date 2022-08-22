@@ -8,12 +8,18 @@
         android:id="@+id/post_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="0dp"
         android:text="Title"
-        android:textSize="30dp" />
+        android:textColor="#000000"
+        android:textSize="25dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         android:orientation="horizontal">
 
         <TextView
@@ -22,15 +28,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="writer"
-            android:textSize="18dp" />
+            android:textColor="#000000"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/post_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="right"
             android:text="date"
-            android:textSize="18dp" />
+            android:textColor="#000000"
+            android:textSize="15dp" />
     </LinearLayout>
 
 </LinearLayout>
