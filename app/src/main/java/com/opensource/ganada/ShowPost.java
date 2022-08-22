@@ -3,15 +3,20 @@ package com.opensource.ganada;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,6 +52,7 @@ public class ShowPost extends AppCompatActivity {
     TextView show_post_date;
     TextView show_post_content;
     CheckBox annoymity_comment;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,14 @@ public class ShowPost extends AppCompatActivity {
         show_post_content = (TextView) findViewById(R.id.show_post_content);
         new_comment = (EditText) findViewById(R.id.new_comment);
         annoymity_comment = (CheckBox) findViewById(R.id.annoymity_comment);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbarText.setText("게시글");
 
         show_post_title.setText(postItem.getTitle());
         listView = (ListView) findViewById(R.id.comments);
@@ -119,6 +133,28 @@ public class ShowPost extends AppCompatActivity {
                 addComment(postItem.getPost_key());
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //추가된 소스, ToolBar에 menu.xml을 인플레이트함
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
+        switch (item.getItemId()) {
+            case R.id.all_menu:
+                Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
+                return super.onOptionsItemSelected(item);
+
+            default:
+                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+                return true;
+        }
     }
 
     class CommentAdapter extends BaseAdapter {
