@@ -1,6 +1,8 @@
 package com.opensource.ganada;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
     private String name;
     private String birth;
     private String uid;

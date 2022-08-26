@@ -30,8 +30,6 @@ public class ModifyMemeberInfo extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
-    private Button logout_button;
-    private Button delete_user_button;
     private Button revise_button;
     private EditText revise_name;
     private DatePicker revise_dayspin;
@@ -47,7 +45,6 @@ public class ModifyMemeberInfo extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         user = mAuth.getCurrentUser();
         revise_button = (Button) findViewById(R.id.revise_button);
-        delete_user_button = (Button) findViewById(R.id.delete_user_button);
         revise_name = (EditText) findViewById(R.id.revise_name);
         revise_dayspin = (DatePicker) findViewById(R.id.revise_dayspin);
         verify_pwd = (EditText) findViewById(R.id.verify_pwd);
@@ -63,18 +60,6 @@ public class ModifyMemeberInfo extends AppCompatActivity {
             }
         });
 
-        delete_user_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //deleteFindData();
-                deleteMember();
-                Toast.makeText(ModifyMemeberInfo.this, "탈퇴 완료", Toast.LENGTH_SHORT).show();
-
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void setUserData() {
@@ -110,34 +95,6 @@ public class ModifyMemeberInfo extends AppCompatActivity {
         finish();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-
-
-        //mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
-        //mDatabase.child(postItem.getPost_key()).setValue(postItem);
-
-    }
-
-    private void deleteFindData() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserModel user = snapshot.getValue(UserModel.class);
-                String deleteKey = user.getName()+user.getBirth();
-                FirebaseDatabase.getInstance().getReference("findData").child(deleteKey).setValue(null);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //
-            }
-        });
-    }
-
-    private void deleteMember() {
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
-        mDatabase.removeValue();
-        mAuth.getCurrentUser().delete();
     }
 
     public void find_email_pwd(String name, String birth) {

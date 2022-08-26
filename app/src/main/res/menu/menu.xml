@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/all_menu"
+        android:id="@+id/back"
         android:enabled="true"
         android:title="ganada"
-        android:icon="@drawable/hamburger"
+        android:icon="@drawable/back"
         app:showAsAction="always"/>
 
 </menu>

@@ -56,10 +56,4 @@
         android:layout_height="wrap_content"
         android:text="회원정보변경" />
 
-    <Button
-        android:id="@+id/delete_user_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="탈퇴" />
-
 </LinearLayout>

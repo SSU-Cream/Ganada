@@ -1,14 +1,18 @@
 package com.opensource.ganada;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ManageActivity extends AppCompatActivity {
+public class ManageActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     Button register_button;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -39,7 +45,12 @@ public class ManageActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
+    private UserModel currentUser;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,8 @@ public class ManageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        Intent intent = getIntent();
+        currentUser = (UserModel) intent.getSerializableExtra("user");
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -59,8 +72,9 @@ public class ManageActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.studentRecyclerView);
         register_button = (Button) findViewById(R.id.register_student_button);
         studentItems = new ArrayList<StudentItem>();
-        toolbarText.setText("학습 아동 관리");
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+
+        setSideNavBar();
+        set_header_content();
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -87,7 +101,17 @@ public class ManageActivity extends AppCompatActivity {
                 finish();
                 Intent intent = new Intent(getApplicationContext(), ShowStudentInfo.class);
                 intent.putExtra("item",item);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
+            }
+        });
+
+        headerView = navigationView.getHeaderView(0);
+        Button headerBack = (Button) headerView.findViewById(R.id.header_back);
+        headerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
     }
@@ -100,18 +124,89 @@ public class ManageActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
-        switch (item.getItemId()) {
-            case R.id.all_menu:
-                Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
-                return super.onOptionsItemSelected(item);
-
-            default:
-                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
-                return true;
+        if(item.getItemId() == R.id.back) {
+            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item1:
+                Toast.makeText(getApplicationContext(),"로그아웃 하였습니다",Toast.LENGTH_SHORT).show();
+                signOut();
+                break;
+            case R.id.menu_item2:
+                Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_item3:
+                show_delete_member_dlg();
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void setSideNavBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        toolbarText.setText("학습 아동 관리");
+        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
+        drawerLayout.addDrawerListener(drawerToggle);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void set_header_content() {
+        headerView = navigationView.getHeaderView(0);
+        TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
+        TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
+        TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        headerName.setText(currentUser.getName());
+        headerEmail.setText(mAuth.getCurrentUser().getEmail());
+        headerBirth.setText(currentUser.getBirth());
     }
 
     public void getStudentsDatas(StudentAdapter adapter, ArrayList<StudentItem> studentItems) {
@@ -195,5 +290,36 @@ public class ManageActivity extends AppCompatActivity {
         finish();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+    private void deleteMember() {
+        Toast.makeText(getApplicationContext(),"탈퇴 하였습니다",Toast.LENGTH_SHORT).show();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
+        mDatabase.removeValue();
+        mAuth.getCurrentUser().delete();
+
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void show_delete_member_dlg() {
+        AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(this);
+        deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
+        deleteMemberDlg.setIcon(R.drawable.pic1);
+        deleteMemberDlg.setNegativeButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteMember();
+            }
+        });
+        deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        deleteMemberDlg.show();
     }
 }
