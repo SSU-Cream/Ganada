@@ -3,6 +3,7 @@ package com.opensource.ganada;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private CheckBox id_check;
     private CallbackManager mCallbackManager;
+    long pressedTime = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +150,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(pressedTime == 0L) {
+            Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            pressedTime = System.currentTimeMillis();
+        } else {
+            long seconds = (long) (System.currentTimeMillis() - pressedTime);
+            if(seconds > 2000L) {
+                Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                pressedTime = 0L;
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 
     /*

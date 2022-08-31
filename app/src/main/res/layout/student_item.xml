@@ -27,10 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
+        android:background="#ECECEC"
         android:gravity="center"
         android:hint="name"
         android:textAlignment="center"
-        android:background="#ECECEC"
         android:textColor="#000000"
         android:textSize="25dp" />
+
 </LinearLayout>
