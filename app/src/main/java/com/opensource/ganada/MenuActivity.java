@@ -27,6 +27,8 @@ public class MenuActivity extends AppCompatActivity {
         Button manageButton = (Button) findViewById(R.id.manageButton);
         Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
+        Button learningButton = (Button) findViewById(R.id.learningButton);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
@@ -44,6 +46,14 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         practiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        learningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), PracticeActivity.class);
