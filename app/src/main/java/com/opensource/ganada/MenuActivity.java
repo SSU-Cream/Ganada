@@ -54,7 +54,7 @@ public class MenuActivity extends AppCompatActivity
         Button manageButton = (Button) findViewById(R.id.manageButton);
         Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
-        Button learningButton = (Button) findViewById(R.id.learningButton);
+        Button learningButton = (Button) findViewById(R.id.testButton);
 
         setSideNavBar();
         get_user_info();
