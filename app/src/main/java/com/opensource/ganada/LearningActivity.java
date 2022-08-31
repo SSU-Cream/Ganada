@@ -84,7 +84,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                        mediaRecorder.setOrientationHint(90);
+                        mediaRecorder.setOrientationHint(270);
                         mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
                         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
                         mediaRecorder.prepare();
@@ -110,7 +110,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         public void onPermissionGranted() {
             Toast.makeText(LearningActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
 
-            camera = Camera.open();
+            camera = Camera.open(1);
             camera.setDisplayOrientation(90);
             SurfaceView surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
             surfaceHolder = surfaceView.getHolder();
