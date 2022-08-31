@@ -8,18 +8,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +38,8 @@ public class ShowStudentInfo extends AppCompatActivity
     private TextView show_student_age;
     private TextView show_student_score;
     private EditText show_detail_record;
+    private Button revise_student_info_button;
+    private Button delete_student_button;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -62,18 +62,41 @@ public class ShowStudentInfo extends AppCompatActivity
         show_student_age = (TextView) findViewById(R.id.show_student_age);
         show_student_score = (TextView) findViewById(R.id.show_student_score);
         show_detail_record = (EditText) findViewById(R.id.show_detail_record);
+        revise_student_info_button = (Button) findViewById(R.id.revise_student_info_button);
+        delete_student_button = (Button) findViewById(R.id.delete_student_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
-        toolbarText.setText("학습 아동 세부 관리");
 
         setSideNavBar();
         set_header_content();
         set_student_info(studentItem);
+
+        revise_student_info_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                revise_student(studentItem);
+            }
+        });
+
+        delete_student_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delete_student(studentItem);
+            }
+        });
+
+        headerView = navigationView.getHeaderView(0);
+        Button headerBack = (Button) headerView.findViewById(R.id.header_back);
+        headerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
     }
 
     @Override
@@ -98,7 +121,7 @@ public class ShowStudentInfo extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.back) {
-            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -116,6 +139,7 @@ public class ShowStudentInfo extends AppCompatActivity
                 break;
             case R.id.menu_item2:
                 Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
                 break;
             case R.id.menu_item3:
@@ -130,6 +154,9 @@ public class ShowStudentInfo extends AppCompatActivity
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            Intent intent = new Intent(getApplicationContext(), ManageActivity.class);
+            intent.putExtra("user",currentUser);
+            startActivity(intent);
             super.onBackPressed();
         }
     }
@@ -139,12 +166,12 @@ public class ShowStudentInfo extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("메뉴");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+        toolbarText.setText("학습 아동 세부 관리");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -188,6 +215,11 @@ public class ShowStudentInfo extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void delete_find_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+    }
+
     private void show_delete_member_dlg() {
         AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(this);
         deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
@@ -196,6 +228,7 @@ public class ShowStudentInfo extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteMember();
+                delete_find_data(currentUser.getName()+currentUser.getBirth());
             }
         });
         deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
@@ -205,6 +238,20 @@ public class ShowStudentInfo extends AppCompatActivity
             }
         });
         deleteMemberDlg.show();
+    }
+
+    public void revise_student(StudentItem item) {
+        item.setDetailedRecord(show_detail_record.getText().toString());
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
+        mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
+    }
+
+    public void delete_student(StudentItem item) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
+        DatabaseReference dataRef = mDatabase.child(Integer.toString(item.getStudentNum()));
+        Toast.makeText(getApplicationContext(),item.getName(),Toast.LENGTH_SHORT).show();
+        dataRef.removeValue();
+        onBackPressed();
     }
 
     public void set_student_info(StudentItem studentItem) {

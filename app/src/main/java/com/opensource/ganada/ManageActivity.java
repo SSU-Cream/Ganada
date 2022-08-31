@@ -88,7 +88,7 @@ public class ManageActivity extends AppCompatActivity
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                show_register_student_dlg();
+                show_register_student_dlg(adapter);
             }
         });
 
@@ -138,7 +138,7 @@ public class ManageActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.back) {
-            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -156,6 +156,7 @@ public class ManageActivity extends AppCompatActivity
                 break;
             case R.id.menu_item2:
                 Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
                 break;
             case R.id.menu_item3:
@@ -170,6 +171,9 @@ public class ManageActivity extends AppCompatActivity
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            intent.putExtra("user",currentUser);
+            startActivity(intent);
             super.onBackPressed();
         }
     }
@@ -232,7 +236,7 @@ public class ManageActivity extends AppCompatActivity
         });
     }
 
-    public void show_register_student_dlg() {
+    public void show_register_student_dlg(StudentAdapter adapter) {
         View dlgView = (View)View.inflate(ManageActivity.this, R.layout.register_student, null);
         AlertDialog.Builder register_student_dlg = new AlertDialog.Builder(ManageActivity.this);
         register_student_dlg.setTitle("학생등록");
@@ -248,7 +252,7 @@ public class ManageActivity extends AppCompatActivity
                 if(name.equals("")) Toast.makeText(getApplicationContext(), "등록할 학생의 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
                 else if(age.equals("")) Toast.makeText(getApplicationContext(), "등록할 학생의 나이를 입력하세요.", Toast.LENGTH_SHORT).show();
                 else {
-                    register_student(name,Integer.parseInt(age));
+                    register_student(name,Integer.parseInt(age),adapter);
                     Toast.makeText(getApplicationContext(), "등록 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -262,7 +266,7 @@ public class ManageActivity extends AppCompatActivity
         register_student_dlg.show();
     }
 
-    public void register_student(String name, int age) {
+    public void register_student(String name, int age, StudentAdapter adapter) {
         StudentItem item = new StudentItem(name,age,"");
         mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -277,6 +281,8 @@ public class ManageActivity extends AppCompatActivity
                 }
                 item.setStudentNum(idx);
                 mDatabase.child(Integer.toString(idx)).setValue(item);
+                adapter.addItem(item);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -304,6 +310,13 @@ public class ManageActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void delete_all_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(mAuth.getUid());
+        mDatabase.removeValue();
+    }
+
     private void show_delete_member_dlg() {
         AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(this);
         deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
@@ -312,6 +325,7 @@ public class ManageActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteMember();
+                delete_all_data(currentUser.getName()+currentUser.getBirth());
             }
         });
         deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {

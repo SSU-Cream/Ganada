@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
+
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,6 +44,7 @@ public class MenuActivity extends AppCompatActivity
     private DatabaseReference mDatabase;
     private UserModel currentUser = new UserModel();
     private View headerView;
+    long pressedTime = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class MenuActivity extends AppCompatActivity
         manageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 get_current_user();
                 Intent intent = new Intent(getApplicationContext(), ManageActivity.class);
                 intent.putExtra("user",currentUser);
@@ -67,6 +71,7 @@ public class MenuActivity extends AppCompatActivity
         practiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), PracticeActivity.class);
                 startActivity(intent);
             }
@@ -75,6 +80,7 @@ public class MenuActivity extends AppCompatActivity
         communityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 get_current_user();
                 Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
                 intent.putExtra("user",currentUser);
@@ -114,7 +120,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.back) {
-            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -130,7 +136,9 @@ public class MenuActivity extends AppCompatActivity
                 signOut();
                 break;
             case R.id.menu_item2:
+                get_current_user();
                 Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
                 break;
             case R.id.menu_item3:
@@ -145,7 +153,18 @@ public class MenuActivity extends AppCompatActivity
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(pressedTime == 0L) {
+                Toast.makeText(MenuActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                pressedTime = System.currentTimeMillis();
+            } else {
+                long seconds = (long) (System.currentTimeMillis() - pressedTime);
+                if(seconds > 2000L) {
+                    Toast.makeText(MenuActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                    pressedTime = 0L;
+                } else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -225,6 +244,13 @@ public class MenuActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void delete_all_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(mAuth.getUid());
+        mDatabase.removeValue();
+    }
+
     private void show_register_student_dlg() {
         AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(MenuActivity.this);
         deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
@@ -233,6 +259,8 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteMember();
+                get_current_user();
+                delete_all_data(currentUser.getName()+currentUser.getBirth());
             }
         });
         deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {

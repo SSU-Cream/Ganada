@@ -82,15 +82,8 @@ public class ShowPost extends AppCompatActivity
         show_post_date = (TextView) findViewById(R.id.show_post_date);
         show_post_content = (TextView) findViewById(R.id.show_post_content);
         new_comment = (EditText) findViewById(R.id.new_comment);
-        annoymity_comment = (CheckBox) findViewById(R.id.annoymity_comment);
+        annoymity_comment = (CheckBox) findViewById(R.id.annoymity_checkBox);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
-        toolbarText.setText("게시글");
 
         setSideNavBar();
         set_header_content();
@@ -129,6 +122,7 @@ public class ShowPost extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RevisePost.class);
+                intent.putExtra("user",currentUser);
                 intent.putExtra("item",postItem);
                 finish();
                 startActivity(intent);
@@ -147,6 +141,15 @@ public class ShowPost extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 addComment(postItem.getPost_key());
+            }
+        });
+
+        headerView = navigationView.getHeaderView(0);
+        Button headerBack = (Button) headerView.findViewById(R.id.header_back);
+        headerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
     }
@@ -173,7 +176,7 @@ public class ShowPost extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.back) {
-            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -191,6 +194,7 @@ public class ShowPost extends AppCompatActivity
                 break;
             case R.id.menu_item2:
                 Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
                 break;
             case R.id.menu_item3:
@@ -205,16 +209,18 @@ public class ShowPost extends AppCompatActivity
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
+            intent.putExtra("user",currentUser);
+            startActivity(intent);
             super.onBackPressed();
         }
     }
 
     public void setSideNavBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("메뉴");
+        toolbarText.setText("게시글");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -263,6 +269,11 @@ public class ShowPost extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void delete_find_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+    }
+
     private void show_delete_member_dlg() {
         androidx.appcompat.app.AlertDialog.Builder deleteMemberDlg = new androidx.appcompat.app.AlertDialog.Builder(this);
         deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
@@ -271,6 +282,7 @@ public class ShowPost extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteMember();
+                delete_find_data(currentUser.getName()+currentUser.getBirth());
             }
         });
         deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {

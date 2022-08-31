@@ -104,8 +104,10 @@ public class CommunityActivity extends AppCompatActivity
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), Posting.class);
-                startActivityForResult(intent, 100);
+                intent.putExtra("user", currentUser);
+                startActivity(intent);
             }
         });
 
@@ -152,7 +154,7 @@ public class CommunityActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.back) {
-            Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -165,11 +167,12 @@ public class CommunityActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item1:
-                Toast.makeText(getApplicationContext(),"로그아웃 하였습니다",Toast.LENGTH_SHORT).show();
+                onBackPressed();
                 signOut();
                 break;
             case R.id.menu_item2:
                 Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
                 break;
             case R.id.menu_item3:
@@ -184,6 +187,9 @@ public class CommunityActivity extends AppCompatActivity
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            intent.putExtra("user",currentUser);
+            startActivity(intent);
             super.onBackPressed();
         }
     }
@@ -193,7 +199,7 @@ public class CommunityActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("메뉴");
+        toolbarText.setText("커뮤니티");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -263,6 +269,13 @@ public class CommunityActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void delete_all_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(mAuth.getUid());
+        mDatabase.removeValue();
+    }
+
     private void show_delete_member_dlg() {
         AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(this);
         deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
@@ -271,6 +284,7 @@ public class CommunityActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 deleteMember();
+                delete_all_data(currentUser.getName()+currentUser.getBirth());
             }
         });
         deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
