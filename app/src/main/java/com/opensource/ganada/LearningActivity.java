@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.hardware.Camera;
+import android.hardware.camera2.*;
 import android.media.MediaRecorder;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,6 +28,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.util.ArrayList;
 
 public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
+
     Toolbar toolbar;
     private Camera camera;
     private MediaRecorder mediaRecorder;
