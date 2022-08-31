@@ -26,13 +26,13 @@ import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 
-public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
     Toolbar toolbar;
     private Camera camera;
     private MediaRecorder mediaRecorder;
     private SurfaceHolder surfaceHolder;
     private SurfaceView surfaceView;
-    private boolean recording = false;
+    private Button btn_record_start, btn_record_stop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,44 +56,52 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
                 .check();
 
-        Button btn_record = (Button) findViewById(R.id.btn_record);
-        btn_record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (recording) {
-                    mediaRecorder.stop();
-                    mediaRecorder.release();
-                    camera.lock();
-                    recording = false;
-                } else {
-                    runOnUiThread(new Runnable() {
-                       @SuppressLint("SdCardPath")
-                       @Override
-                       public void run() {
-                           Toast.makeText(LearningActivity.this, "start record", Toast.LENGTH_SHORT).show();
-                           try {
-                               mediaRecorder = new MediaRecorder();
-                               camera.unlock();
-                               mediaRecorder.setCamera(camera);
-                               mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                               mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                               mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                               mediaRecorder.setOrientationHint(90);
-                               mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
-                               mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-                               mediaRecorder.prepare();
-                               mediaRecorder.start();
-                               recording = true;
-                           } catch (Exception e) {
-                               e.printStackTrace();
-                               mediaRecorder.release();
-                           }
-                       }
-                    });
-                }
-            }
-        });
+        btn_record_start = (Button) findViewById(R.id.btn_record_start);
+        btn_record_stop = (Button) findViewById(R.id.btn_record_stop);
+
+        btn_record_start.setOnClickListener(this);
+        btn_record_stop.setOnClickListener(this);
+
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btn_record_start) {
+            System.out.println("record start");
+            Toast.makeText(LearningActivity.this, "record start" ,Toast.LENGTH_SHORT).show();
+
+            runOnUiThread(new Runnable() {
+                @SuppressLint("SdCardPath")
+                @Override
+                public void run() {
+                    Toast.makeText(LearningActivity.this, "start record", Toast.LENGTH_SHORT).show();
+                    try {
+                        mediaRecorder = new MediaRecorder();
+                        camera.unlock();
+                        mediaRecorder.setCamera(camera);
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+                        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+                        mediaRecorder.setOrientationHint(90);
+                        mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
+                        mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
+                        mediaRecorder.prepare();
+                        mediaRecorder.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        mediaRecorder.release();
+                    }
+                }
+            });
+        }else if (v == btn_record_stop) {
+                System.out.println("record stop");
+                Toast.makeText(LearningActivity.this, "record stop" ,Toast.LENGTH_SHORT).show();
+
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                camera.lock();
+            }
+        }
 
     PermissionListener permission = new PermissionListener() {
         @Override
