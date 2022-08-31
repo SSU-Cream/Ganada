@@ -40,6 +40,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="130sp"
@@ -47,6 +48,7 @@
                 android:text="ㄱ" />
 
             <TextView
+                android:id="@+id/contentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="45sp"
@@ -77,12 +79,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/loadimg"
+                android:id="@+id/ex1_img"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/learning_temp_img1"/>
 
             <TextView
+                android:id="@+id/ex1_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="35sp"
@@ -99,11 +102,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/ex2_img"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/learning_temp_img2"/>
 
             <TextView
+                android:id="@+id/ex2_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="35sp"

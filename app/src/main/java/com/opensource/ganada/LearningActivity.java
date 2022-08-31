@@ -4,17 +4,13 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.media.CamcorderProfile;
 import android.os.Bundle;
-import android.view.Surface;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
-
 import android.Manifest;
 import android.hardware.Camera;
-import android.hardware.camera2.*;
 import android.media.MediaRecorder;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -112,7 +108,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
             camera = Camera.open(1);
             camera.setDisplayOrientation(90);
-            SurfaceView surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+            surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
             surfaceHolder = surfaceView.getHolder();
             surfaceHolder.addCallback(LearningActivity.this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
