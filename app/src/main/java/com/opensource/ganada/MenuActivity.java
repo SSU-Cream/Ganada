@@ -54,7 +54,7 @@ public class MenuActivity extends AppCompatActivity
         Button manageButton = (Button) findViewById(R.id.manageButton);
         Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
-        Button learningButton = (Button) findViewById(R.id.testButton);
+        Button learningButton = (Button) findViewById(R.id.learningButton);
 
         setSideNavBar();
         get_user_info();
@@ -73,7 +73,10 @@ public class MenuActivity extends AppCompatActivity
         practiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+                get_current_user();
                 Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
             }
         });
@@ -82,7 +85,9 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 finish();
+                get_current_user();
                 Intent intent = new Intent(getApplicationContext(), PracticeActivity.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
             }
         });

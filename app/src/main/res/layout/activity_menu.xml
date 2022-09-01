@@ -28,10 +28,11 @@
 
                 <Button
                     android:id="@+id/practiceButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/round_button3"
                     android:drawableTop="@drawable/practice"
                     android:fontFamily="@font/exam"
@@ -44,16 +45,21 @@
                     tools:ignore="MissingConstraints" />
 
                 <Button
-                    android:id="@+id/testButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:id="@+id/learningButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
+                    android:layout_weight="1"
                     android:background="@drawable/round_button3"
                     android:drawableTop="@drawable/study"
                     android:fontFamily="@font/exam"
                     android:padding="45dp"
                     android:text="학습하기"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.129" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,28 +70,38 @@
 
                 <Button
                     android:id="@+id/communityButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
                     android:background="@drawable/round_button3"
                     android:drawableTop="@drawable/speaker"
                     android:fontFamily="@font/exam"
                     android:padding="45dp"
                     android:text="소통창구"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.129" />
 
                 <Button
                     android:id="@+id/manageButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
                     android:background="@drawable/round_button3"
                     android:drawableTop="@drawable/manage"
                     android:fontFamily="@font/exam"
                     android:padding="45dp"
                     android:text="회원관리"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.129" />
             </LinearLayout>
         </LinearLayout>
 
