@@ -25,7 +25,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/practiceButton"
+                    android:id="@+id/learningButton"
                     android:layout_width="200dp"
                     android:layout_height="300dp"
                     android:layout_marginTop="20dp"
@@ -38,7 +38,7 @@
                     android:textSize="30dp" />
 
                 <Button
-                    android:id="@+id/testButton"
+                    android:id="@+id/practiceButton"
                     android:layout_width="200dp"
                     android:layout_height="300dp"
                     android:layout_marginTop="20dp"

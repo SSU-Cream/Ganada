@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_community.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_learning_select.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_manage.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_menu.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_modify_memeber_info.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_practice.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/activity_practice_main.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/find_member.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/eric2/Ganada/app/src/main/res/layout/register_student.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable-anydpi/hamburger.xml" value="0.347" />
@@ -88,7 +93,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

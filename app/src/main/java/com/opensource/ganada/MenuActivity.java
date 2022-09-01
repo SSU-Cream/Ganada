@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,20 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.sql.Time;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,8 +47,9 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         mAuth = FirebaseAuth.getInstance();
         Button manageButton = (Button) findViewById(R.id.manageButton);
-        Button practiceButton = (Button) findViewById(R.id.practiceButton);
+        Button practiceButton = (Button) findViewById(R.id.learningButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
+        Button learningButton = (Button) findViewById(R.id.learningButton);
         setSideNavBar();
         get_user_info();
 
@@ -72,7 +68,20 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 finish();
+                get_current_user();
                 Intent intent = new Intent(getApplicationContext(), PracticeActivity.class);
+                intent.putExtra("user",currentUser);
+                startActivity(intent);
+            }
+        });
+
+        learningButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                get_current_user();
+                Intent intent = new Intent(getApplicationContext(), LearningSelectActivity.class);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
             }
         });
