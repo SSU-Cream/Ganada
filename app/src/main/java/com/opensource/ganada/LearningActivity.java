@@ -117,7 +117,6 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 @SuppressLint("SdCardPath")
                 @Override
                 public void run() {
-                    /*
                     Toast.makeText(LearningActivity.this, "start record", Toast.LENGTH_SHORT).show();
                     try {
                         mediaRecorder = new MediaRecorder();
@@ -136,19 +135,15 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                         mediaRecorder.release();
                     }
 
-                     */
                 }
             });
         }else if (v == btn_record_stop) {
                 System.out.println("record stop");
                 //Toast.makeText(LearningActivity.this, "record stop", Toast.LENGTH_SHORT).show();
 
-            /*
                 mediaRecorder.stop();
                 mediaRecorder.release();
                 camera.lock();
-
-             */
 
                 if (idx < 2) {
                     idx++;
@@ -184,7 +179,6 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         public void onPermissionGranted() {
             Toast.makeText(LearningActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
 
-            /*
             camera = Camera.open(1);
             camera.setDisplayOrientation(90);
             surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
@@ -192,7 +186,6 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
             surfaceHolder.addCallback(LearningActivity.this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-             */
 
         }
 
