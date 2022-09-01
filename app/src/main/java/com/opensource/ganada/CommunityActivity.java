@@ -126,7 +126,7 @@ public class CommunityActivity extends AppCompatActivity {
         }
     }
 
-    public void getPostDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
+    public void getPostDatas(final PostAdapter adapter, final ArrayList<PostItem> postItems) {
         mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
