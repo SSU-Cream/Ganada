@@ -62,11 +62,10 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         startActivity(intent);
          */
 
-        /*
+
         Intent intent = getIntent();
         childName.setText(intent.getExtras().getString("childName"));
 
-         */
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
