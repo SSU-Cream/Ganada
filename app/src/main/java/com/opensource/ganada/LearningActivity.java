@@ -49,6 +49,18 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning);
 
+        btn_record_start = (Button) findViewById(R.id.btn_record_start);
+        btn_record_stop = (Button) findViewById(R.id.btn_record_stop);
+
+        btn_record_start.setOnClickListener(this);
+        btn_record_stop.setOnClickListener(this);
+
+        q_content = (TextView) findViewById(R.id.q_content);
+        q_contentText = (TextView) findViewById(R.id.q_contentText);
+
+        childName = (TextView) findViewById(R.id.childName);
+        status = (TextView) findViewById(R.id.status);
+
         for (String s1 : content) {
             System.out.println("content : " + s1);
         }
@@ -64,7 +76,10 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
 
         Intent intent = getIntent();
-        childName.setText(intent.getExtras().getString("childName"));
+        StudentItem item = (StudentItem) intent.getSerializableExtra("childName");
+        System.out.println(item);
+        childName.setText(item.getName());
+        System.out.println(item.getName());
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,17 +99,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
                 .check();
 
-        btn_record_start = (Button) findViewById(R.id.btn_record_start);
-        btn_record_stop = (Button) findViewById(R.id.btn_record_stop);
 
-        btn_record_start.setOnClickListener(this);
-        btn_record_stop.setOnClickListener(this);
-
-        q_content = (TextView) findViewById(R.id.q_content);
-        q_contentText = (TextView) findViewById(R.id.q_contentText);
-
-        childName = (TextView) findViewById(R.id.childName);
-        status = (TextView) findViewById(R.id.status);
 
         setQuestioin();
     }

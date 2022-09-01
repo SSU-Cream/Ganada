@@ -90,7 +90,7 @@ public class LearningSelectActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),"아이템 선택됨 : " + item.getName(), Toast.LENGTH_SHORT).show();
 
                 finish();
-                Intent intent = new Intent(getApplicationContext(), ShowStudentInfo.class);
+                Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
                 intent.putExtra("childName",item);
                 intent.putExtra("user",currentUser);
                 startActivity(intent);

@@ -47,7 +47,7 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         mAuth = FirebaseAuth.getInstance();
         Button manageButton = (Button) findViewById(R.id.manageButton);
-        Button practiceButton = (Button) findViewById(R.id.learningButton);
+        Button practiceButton = (Button) findViewById(R.id.practiceButton);
         Button communityButton = (Button) findViewById(R.id.communityButton);
         Button learningButton = (Button) findViewById(R.id.learningButton);
         setSideNavBar();
