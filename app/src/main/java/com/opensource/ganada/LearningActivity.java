@@ -1,9 +1,11 @@
 package com.opensource.ganada;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.CamcorderProfile;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +23,9 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
@@ -32,10 +36,37 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private SurfaceView surfaceView;
     private Button btn_record_start, btn_record_stop;
 
+    ArrayList<String> content = new ArrayList<String>(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ"));
+    ArrayList<String> contentText = new ArrayList<String>(Arrays.asList("기역", "니은", "디귿", "리을"));
+
+    private Integer idx = 0;
+    private Integer score = 0;
+
+    private TextView q_content, q_contentText, childName, status;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning);
+
+        for (String s1 : content) {
+            System.out.println("content : " + s1);
+        }
+        for (String s2 : contentText) {
+            System.out.println("contentText : " + s2);
+        }
+
+        /*
+        Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
+        intent.putExtra("video_file", file);
+        startActivity(intent);
+         */
+
+        /*
+        Intent intent = getIntent();
+        childName.setText(intent.getExtras().getString("childName"));
+
+         */
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
@@ -60,18 +91,33 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         btn_record_start.setOnClickListener(this);
         btn_record_stop.setOnClickListener(this);
 
+        q_content = (TextView) findViewById(R.id.q_content);
+        q_contentText = (TextView) findViewById(R.id.q_contentText);
+
+        childName = (TextView) findViewById(R.id.childName);
+        status = (TextView) findViewById(R.id.status);
+
+        setQuestioin();
+    }
+
+    private void setQuestioin() {
+        q_content.setText(content.get(idx));
+        q_contentText.setText(contentText.get(idx));
+
+        status.setText("진행상태 : " + idx.toString() + "/3 \n맞은 개수 : " + score.toString() + "/3 ");
     }
 
     @Override
     public void onClick(View v) {
         if (v == btn_record_start) {
             System.out.println("record start");
-            Toast.makeText(LearningActivity.this, "record start" ,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(LearningActivity.this, "record start" ,Toast.LENGTH_SHORT).show();
 
             runOnUiThread(new Runnable() {
                 @SuppressLint("SdCardPath")
                 @Override
                 public void run() {
+                    /*
                     Toast.makeText(LearningActivity.this, "start record", Toast.LENGTH_SHORT).show();
                     try {
                         mediaRecorder = new MediaRecorder();
@@ -89,15 +135,47 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                         e.printStackTrace();
                         mediaRecorder.release();
                     }
+
+                     */
                 }
             });
         }else if (v == btn_record_stop) {
                 System.out.println("record stop");
-                Toast.makeText(LearningActivity.this, "record stop" ,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LearningActivity.this, "record stop", Toast.LENGTH_SHORT).show();
 
+            /*
                 mediaRecorder.stop();
                 mediaRecorder.release();
                 camera.lock();
+
+             */
+
+                if (idx < 2) {
+                    idx++;
+                    score++;
+                } else if (idx == 2){
+                    /*
+                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                    intent.putExtra("childName", childName.toString());
+                    intent.putExtra("score", score.toString());
+                    startActivity(intent);
+
+                     */
+                    idx++;
+                    Toast.makeText(LearningActivity.this, childName.getText() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    }, 5000);
+
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    startActivity(intent);
+                }
+                setQuestioin();
             }
         }
 
@@ -106,12 +184,15 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         public void onPermissionGranted() {
             Toast.makeText(LearningActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
 
+            /*
             camera = Camera.open(1);
             camera.setDisplayOrientation(90);
             surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
             surfaceHolder = surfaceView.getHolder();
             surfaceHolder.addCallback(LearningActivity.this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+             */
 
         }
 
