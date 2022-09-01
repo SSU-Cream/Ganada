@@ -17,27 +17,36 @@
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/boder.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/gradient_line.xml" value="0.347" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/gray_round_bottom.xml" value="0.347" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/gray_round_top.xml" value="0.347" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/gray_round_view.xml" value="0.347" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/pink_line.xml" value="0.347" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/round_button.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/round_button2.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/drawable/round_button3.xml" value="0.1885" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_community.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_join_member.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_manage.xml" value="0.25" />
-        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_menu.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_manage.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_menu.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_menu_content.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_modify_memeber_info.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_posting.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_practice.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_show_post.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_show_post.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/activity_show_student_info.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/comment_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/drawer_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/find_member.xml" value="0.29347826086956524" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/header.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/header_layout.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/nav_view.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/post_item.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/register_student.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/student_item.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/layout/toolbar.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/menu/drawer_layout.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/menu/drawer_menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/menu/mainmenu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/menu/menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/Desktop/Ganada/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.347" />

@@ -1,14 +1,18 @@
 package com.opensource.ganada;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ManageActivity extends AppCompatActivity {
+public class ManageActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     Button register_button;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -39,7 +45,12 @@ public class ManageActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
+    private UserModel currentUser;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,8 @@ public class ManageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        Intent intent = getIntent();
+        currentUser = (UserModel) intent.getSerializableExtra("user");
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -59,8 +72,9 @@ public class ManageActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.studentRecyclerView);
         register_button = (Button) findViewById(R.id.register_student_button);
         studentItems = new ArrayList<StudentItem>();
-        toolbarText.setText("학습 아동 관리");
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+
+        setSideNavBar();
+        set_header_content();
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -74,7 +88,7 @@ public class ManageActivity extends AppCompatActivity {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                show_register_student_dlg();
+                show_register_student_dlg(adapter);
             }
         });
 
@@ -87,7 +101,17 @@ public class ManageActivity extends AppCompatActivity {
                 finish();
                 Intent intent = new Intent(getApplicationContext(), ShowStudentInfo.class);
                 intent.putExtra("item",item);
+                intent.putExtra("user",currentUser);
                 startActivity(intent);
+            }
+        });
+
+        headerView = navigationView.getHeaderView(0);
+        Button headerBack = (Button) headerView.findViewById(R.id.header_back);
+        headerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
     }
@@ -100,18 +124,93 @@ public class ManageActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
-        switch (item.getItemId()) {
-            case R.id.all_menu:
-                Toast.makeText(getApplicationContext(), "기능 더보기", Toast.LENGTH_LONG).show();
-                return super.onOptionsItemSelected(item);
-
-            default:
-                Toast.makeText(getApplicationContext(), "뒤로가기 버튼 클릭됨", Toast.LENGTH_SHORT).show();
-                return true;
+        if(item.getItemId() == R.id.back) {
+            onBackPressed();
+            return true;
         }
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item1:
+                Toast.makeText(getApplicationContext(),"로그아웃 하였습니다",Toast.LENGTH_SHORT).show();
+                signOut();
+                break;
+            case R.id.menu_item2:
+                Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
+                intent.putExtra("user",currentUser);
+                startActivity(intent);
+                break;
+            case R.id.menu_item3:
+                show_delete_member_dlg();
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            intent.putExtra("user",currentUser);
+            startActivity(intent);
+            super.onBackPressed();
+        }
+    }
+
+    public void setSideNavBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        toolbarText.setText("학습 아동 관리");
+        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
+        drawerLayout.addDrawerListener(drawerToggle);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void set_header_content() {
+        headerView = navigationView.getHeaderView(0);
+        TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
+        TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
+        TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        headerName.setText(currentUser.getName());
+        headerEmail.setText(mAuth.getCurrentUser().getEmail());
+        headerBirth.setText(currentUser.getBirth());
     }
 
     public void getStudentsDatas(StudentAdapter adapter, ArrayList<StudentItem> studentItems) {
@@ -137,7 +236,7 @@ public class ManageActivity extends AppCompatActivity {
         });
     }
 
-    public void show_register_student_dlg() {
+    public void show_register_student_dlg(StudentAdapter adapter) {
         View dlgView = (View)View.inflate(ManageActivity.this, R.layout.register_student, null);
         AlertDialog.Builder register_student_dlg = new AlertDialog.Builder(ManageActivity.this);
         register_student_dlg.setTitle("학생등록");
@@ -153,7 +252,7 @@ public class ManageActivity extends AppCompatActivity {
                 if(name.equals("")) Toast.makeText(getApplicationContext(), "등록할 학생의 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
                 else if(age.equals("")) Toast.makeText(getApplicationContext(), "등록할 학생의 나이를 입력하세요.", Toast.LENGTH_SHORT).show();
                 else {
-                    register_student(name,Integer.parseInt(age));
+                    register_student(name,Integer.parseInt(age),adapter);
                     Toast.makeText(getApplicationContext(), "등록 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -167,7 +266,7 @@ public class ManageActivity extends AppCompatActivity {
         register_student_dlg.show();
     }
 
-    public void register_student(String name, int age) {
+    public void register_student(String name, int age, StudentAdapter adapter) {
         StudentItem item = new StudentItem(name,age,"");
         mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -182,6 +281,8 @@ public class ManageActivity extends AppCompatActivity {
                 }
                 item.setStudentNum(idx);
                 mDatabase.child(Integer.toString(idx)).setValue(item);
+                adapter.addItem(item);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -195,5 +296,44 @@ public class ManageActivity extends AppCompatActivity {
         finish();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+    private void deleteMember() {
+        Toast.makeText(getApplicationContext(),"탈퇴 하였습니다",Toast.LENGTH_SHORT).show();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
+        mDatabase.removeValue();
+        mAuth.getCurrentUser().delete();
+
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void delete_all_data(String deleteKey) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
+        mDatabase.removeValue();
+        mDatabase = FirebaseDatabase.getInstance().getReference("students").child(mAuth.getUid());
+        mDatabase.removeValue();
+    }
+
+    private void show_delete_member_dlg() {
+        AlertDialog.Builder deleteMemberDlg = new AlertDialog.Builder(this);
+        deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
+        deleteMemberDlg.setIcon(R.drawable.pic1);
+        deleteMemberDlg.setNegativeButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteMember();
+                delete_all_data(currentUser.getName()+currentUser.getBirth());
+            }
+        });
+        deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        deleteMemberDlg.show();
     }
 }
