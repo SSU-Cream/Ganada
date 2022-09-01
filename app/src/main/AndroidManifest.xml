@@ -85,6 +85,7 @@
             android:name=".JoinMemberActivity"
             android:exported="false" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".LearningSelectActivity" />
     </application>
 
 </manifest>
