@@ -257,7 +257,7 @@ public class ShowStudentInfo extends AppCompatActivity
     public void set_student_info(StudentItem studentItem) {
         show_student_name.setText(studentItem.getName());
         show_student_age.setText(Integer.toString(studentItem.getAge()));
-        show_student_score.setText("기록 없음");
+        show_student_score.setText("2점");
         show_detail_record.setText(studentItem.getDetailedRecord());
     }
 }

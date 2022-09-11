@@ -43,6 +43,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private Integer score = 0;
 
     private TextView q_content, q_contentText, childName, status;
+    StudentItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
 
         Intent intent = getIntent();
-        StudentItem item = (StudentItem) intent.getSerializableExtra("childName");
+        item = (StudentItem) intent.getSerializableExtra("childName");
         System.out.println(item);
         childName.setText(item.getName());
         System.out.println(item.getName());
@@ -161,7 +162,9 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
                      */
                     idx++;
-                    Toast.makeText(LearningActivity.this, childName.getText() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
+
+                    /*
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -170,6 +173,8 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
                         }
                     }, 5000);
+
+                     */
 
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     startActivity(intent);
