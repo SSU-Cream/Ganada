@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.CamcorderProfile;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,9 +26,20 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.File;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
@@ -36,14 +50,26 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private SurfaceView surfaceView;
     private Button btn_record_start, btn_record_stop;
 
-    ArrayList<String> content = new ArrayList<String>(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ"));
-    ArrayList<String> contentText = new ArrayList<String>(Arrays.asList("기역", "니은", "디귿", "리을"));
+    ArrayList<String> content = new ArrayList<String>(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"));
+    ArrayList<String> contentText = new ArrayList<String>(Arrays.asList("기역", "니은", "디귿", "리을", "미음", "비읍", "시옷", "이응", "지읒", "치읓", "키읔", "티읕", "피읖", "히읗"));
 
     private Integer idx = 0;
     private Integer score = 0;
+    private Integer random_idx = 0;
+    Random rand = new Random();
 
     private TextView q_content, q_contentText, childName, status;
     StudentItem item;
+
+    File file;
+    RequestBody fileBody;
+    MultipartBody.Part filePart;
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://27.35.4.93:3389")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +128,14 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
 
 
-        setQuestioin();
+        setQuestion();
     }
 
-    private void setQuestioin() {
-        q_content.setText(content.get(idx));
-        q_contentText.setText(contentText.get(idx));
+    private void setQuestion() {
+        random_idx = rand.nextInt(14);
+
+        q_content.setText(content.get(random_idx));
+        q_contentText.setText(contentText.get(random_idx));
 
         status.setText("진행상태 : " + idx.toString() + "/3 \n맞은 개수 : " + score.toString() + "/3 ");
     }
@@ -119,6 +147,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
             //Toast.makeText(LearningActivity.this, "record start" ,Toast.LENGTH_SHORT).show();
 
             runOnUiThread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @SuppressLint("SdCardPath")
                 @Override
                 public void run() {
@@ -131,7 +160,8 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                         mediaRecorder.setOrientationHint(270);
-                        mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
+                        mediaRecorder.setOutputFile(file);
+                        //mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
                         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
                         mediaRecorder.prepare();
                         mediaRecorder.start();
@@ -150,36 +180,45 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 mediaRecorder.release();
                 camera.lock();
 
+                fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
+
+                retrofitAPI.request(filePart).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("retrofit", "POST 성공");
+                            String result = response.body();
+                            Log.d("retrofit", result);
+
+                            // score 올리는 곳
+
+                            if (result.equals(contentText.get(random_idx)))
+                                score++;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("retrofit", "POST 실패");
+                        Log.e("retrofit", String.valueOf(t));
+                    }
+                });
+
                 if (idx < 2) {
                     idx++;
-                    score++;
+                    // score++;
                 } else if (idx == 2){
-                    /*
-                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                    intent.putExtra("childName", childName.toString());
-                    intent.putExtra("score", score.toString());
-                    startActivity(intent);
-
-                     */
                     idx++;
+
+                    // TODO : score라는 변수가 아이 점수 -> 해당 아이의 점수 정보 update
+
                     Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
-
-                    /*
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }, 5000);
-
-                     */
 
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     startActivity(intent);
                 }
-                setQuestioin();
+                setQuestion();
             }
         }
 
