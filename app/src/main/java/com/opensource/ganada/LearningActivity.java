@@ -208,7 +208,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                             } else if (idx == 2){
                                 idx++;
 
-                                item.setScore(score);
+                                //item.setScore(score);
                                 mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
                                 mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
 

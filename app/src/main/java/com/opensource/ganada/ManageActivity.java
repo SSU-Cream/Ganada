@@ -33,7 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ManageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,6 +101,7 @@ public class ManageActivity extends AppCompatActivity
             @Override
             public void onItemClick(StudentAdapter.ViewHolder holder, View view, int position) {
                 StudentItem item = adapter.getItem(position);
+                List<Score> scores = item.getScores();
                 Toast.makeText(getApplicationContext(),"아이템 선택됨 : " + item.getName(), Toast.LENGTH_SHORT).show();
 
                 finish();
@@ -267,7 +273,7 @@ public class ManageActivity extends AppCompatActivity
     }
 
     public void register_student(String name, int age, StudentAdapter adapter) {
-        StudentItem item = new StudentItem(name,age,"");
+        StudentItem item = new StudentItem(name,age,"",null);
         mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

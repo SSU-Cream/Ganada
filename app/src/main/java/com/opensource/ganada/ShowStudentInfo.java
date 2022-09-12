@@ -78,6 +78,7 @@ public class ShowStudentInfo extends AppCompatActivity
         revise_student_info_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Toast.makeText(getApplicationContext(),studentItem.getScores().get(0).getPracticeTime(), Toast.LENGTH_SHORT).show();
                 revise_student(studentItem);
             }
         });
@@ -255,10 +256,14 @@ public class ShowStudentInfo extends AppCompatActivity
     }
 
     public void set_student_info(StudentItem studentItem) {
+        String allScore = "";
         show_student_name.setText(studentItem.getName());
         show_student_age.setText(Integer.toString(studentItem.getAge()));
-        // show_student_score.setText("2점");
-        show_student_score.setText(studentItem.getScore());
+        for(int i=0; i<studentItem.getScores().size(); i++) {
+            allScore += (studentItem.getScores().get(i).getPracticeTime().substring(0,13) + " : " + Integer.toString(studentItem.getScores().get(i).getScore()) + "점\n");
+        }
+        show_student_score.setText(allScore);
+        //show_student_score.setText(studentItem.getScores().get(0).getPracticeTime());
         show_detail_record.setText(studentItem.getDetailedRecord());
     }
 }
