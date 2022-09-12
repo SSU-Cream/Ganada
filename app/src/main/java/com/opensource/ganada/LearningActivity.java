@@ -226,7 +226,10 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                         Log.d("retrofit", "POST 실패");
                         Log.e("retrofit", String.valueOf(t));
 
-                        // TODO : main 화면으로 돌아가는 예외처리
+                        Toast.makeText(LearningActivity.this, String.valueOf(t) + " 에러 발생으로 인해 종료되었습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
                     }
                 });
 
