@@ -23,6 +23,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -60,6 +64,8 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
     private TextView q_content, q_contentText, childName, status;
     StudentItem item;
+    private FirebaseUser user;
+    private DatabaseReference mDatabase;
 
     File file;
     RequestBody fileBody;
@@ -107,6 +113,8 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         System.out.println(item);
         childName.setText(item.getName());
         System.out.println(item.getName());
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -191,10 +199,25 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                             String result = response.body();
                             Log.d("retrofit", result);
 
-                            // score 올리는 곳
-
                             if (result.equals(contentText.get(random_idx)))
                                 score++;
+
+                            if (idx < 2) {
+                                idx++;
+                                // score++;
+                            } else if (idx == 2){
+                                idx++;
+
+                                item.setScore(score);
+                                mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
+                                mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
+
+                                Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                                startActivity(intent);
+                            }
+                            setQuestion();
                         }
                     }
 
@@ -202,23 +225,12 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                     public void onFailure(Call<String> call, Throwable t) {
                         Log.d("retrofit", "POST 실패");
                         Log.e("retrofit", String.valueOf(t));
+
+                        // TODO : main 화면으로 돌아가는 예외처리
                     }
                 });
 
-                if (idx < 2) {
-                    idx++;
-                    // score++;
-                } else if (idx == 2){
-                    idx++;
 
-                    // TODO : score라는 변수가 아이 점수 -> 해당 아이의 점수 정보 update
-
-                    Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
-
-                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    startActivity(intent);
-                }
-                setQuestion();
             }
         }
 

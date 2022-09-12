@@ -7,14 +7,16 @@ public class StudentItem implements Serializable {
     private String name;
     private int age;
     private String detailedRecord="";
+    private int score;
 
     public StudentItem() {
     }
 
-    public StudentItem(String name, int age, String detailedRecord) {
+    public StudentItem(String name, int age, String detailedRecord, int score) {
         this.name = name;
         this.age = age;
         this.detailedRecord = detailedRecord;
+        this.score = score;
     }
 
     public int getStudentNum() {
@@ -39,6 +41,14 @@ public class StudentItem implements Serializable {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getDetailedRecord() {
