@@ -112,9 +112,7 @@ public class ShowPost extends AppCompatActivity
             public void onClick(View view) {
                 mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts").child(postItem.getPost_key());
                 mDatabase.removeValue();
-                finish();
-                Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 

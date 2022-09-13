@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -80,6 +81,12 @@ public class Posting extends AppCompatActivity
                 boolean is_annoymity = annoymity_checkBox.isChecked();
                 PostItem postItem = new PostItem("1", title, user_email, content, date, "0", is_annoymity);
                 savePostData(postItem);
+                /*Intent intent = new Intent(Posting.this,CommunityActivity.class);
+                intent.putExtra("user",currentUser);
+                intent.putExtra("item",postItem);
+                setResult(RESULT_OK, intent);
+                finish();*/
+                onBackPressed();
             }
         });
 
@@ -264,10 +271,6 @@ public class Posting extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        Intent intent = new Intent();
-        intent.putExtra("item",postItem);
-        setResult(RESULT_OK, intent);
-        super.finish();
     }
 
 }

@@ -248,8 +248,6 @@ public class RevisePost extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
         mDatabase.child(postItem.getPost_key()).setValue(postItem);
 
-        finish();
-        Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
-        startActivity(intent);
+        onBackPressed();
     }
 }

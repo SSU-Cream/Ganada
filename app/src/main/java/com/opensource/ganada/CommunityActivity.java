@@ -1,5 +1,7 @@
 package com.opensource.ganada;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,6 +21,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,6 +58,19 @@ public class CommunityActivity extends AppCompatActivity
     UserModel currentUser;
     public static Context context_community;
     public int var;
+    Intent intent;
+
+    /*ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == RESULT_OK) {
+                    intent = result.getData();
+                    PostItem postItem = (PostItem) intent.getSerializableExtra("item");
+                    currentUser = (UserModel) intent.getSerializableExtra("user");
+                    adapter.addItem(postItem);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+    );*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +78,7 @@ public class CommunityActivity extends AppCompatActivity
         setContentView(R.layout.activity_community);
 
         mAuth = FirebaseAuth.getInstance();
-        Intent intent = getIntent();
+        intent = getIntent();
         currentUser = (UserModel) intent.getSerializableExtra("user");
         context_community = this;
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -87,6 +103,7 @@ public class CommunityActivity extends AppCompatActivity
         getPostDatas(adapter,postItems);
 
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         adapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
             @Override
@@ -105,9 +122,10 @@ public class CommunityActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 finish();
-                Intent intent = new Intent(getApplicationContext(), Posting.class);
+                Intent intent = new Intent(CommunityActivity.this, Posting.class);
                 intent.putExtra("user", currentUser);
                 startActivity(intent);
+                //mStartForResult.launch(intent);
             }
         });
 
@@ -119,17 +137,6 @@ public class CommunityActivity extends AppCompatActivity
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100 && resultCode == RESULT_OK) {
-            Intent intent = getIntent();
-            PostItem postItem = (PostItem) data.getSerializableExtra("item");
-            adapter.addItem(postItem);
-            adapter.notifyDataSetChanged();
-        }
     }
 
     @Override
