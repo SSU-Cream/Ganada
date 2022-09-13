@@ -202,6 +202,8 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                             if (result.equals(contentText.get(random_idx)))
                                 score++;
 
+                            Toast.makeText(LearningActivity.this, "문제 : " + contentText.get(random_idx) + ", 서버에서 받은 내용 : " + result + " => 서버 성공?", Toast.LENGTH_LONG).show();
+
                             if (idx < 2) {
                                 idx++;
                                 // score++;
