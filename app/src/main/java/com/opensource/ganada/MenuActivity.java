@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -139,6 +140,7 @@ public class MenuActivity extends AppCompatActivity
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent urlintent;
         switch (item.getItemId()) {
             case R.id.menu_item1:
                 Toast.makeText(getApplicationContext(),"로그아웃 하였습니다",Toast.LENGTH_SHORT).show();
@@ -152,6 +154,18 @@ public class MenuActivity extends AppCompatActivity
                 break;
             case R.id.menu_item3:
                 show_register_student_dlg();
+                break;
+            case R.id.LipNet_link:
+                urlintent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/rizkiarm/LipNet"));
+                startActivity(urlintent);
+                break;
+            case R.id.koreanlipnet_link:
+                urlintent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kykymouse/koreanLipNet"));
+                startActivity(urlintent);
+                break;
+            case R.id.practice_youtube_link:
+                urlintent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JMfCyvMQ-JM"));
+                startActivity(urlintent);
                 break;
         }
         return false;

@@ -2,12 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_menu">
     <item
-        android:id="@+id/menu_item1"
-        android:title="로그아웃" />
+        android:title="계정 관리"
+        >
+        <menu>
+        <item
+            android:id="@+id/menu_item1"
+            android:title="로그아웃" />
+        <item
+            android:id="@+id/menu_item2"
+            android:title="회원 정보 수정" />
+        <item
+            android:id="@+id/menu_item3"
+            android:title="회원 탈퇴" />
+        </menu>
+    </item>
+
     <item
-        android:id="@+id/menu_item2"
-        android:title="회원 정보 수정" />
-    <item
-        android:id="@+id/menu_item3"
-        android:title="회원 탈퇴" />
+        android:title="개발 라이센스 링크">
+        <menu>
+            <item
+                android:id="@+id/LipNet_link"
+                android:title="LipNet" />
+            <item
+                android:id="@+id/koreanlipnet_link"
+                android:title="koreanlipnet" />
+            <item
+                android:id="@+id/practice_youtube_link"
+                android:title="케이스타일즈" />
+        </menu>
+    </item>
 </menu>
