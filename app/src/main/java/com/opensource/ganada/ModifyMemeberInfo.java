@@ -178,9 +178,11 @@ public class ModifyMemeberInfo extends AppCompatActivity
         TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
         TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
         TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
         headerName.setText(currentUser.getName());
         headerEmail.setText(mAuth.getCurrentUser().getEmail());
         headerBirth.setText(currentUser.getBirth());
+        headerRole.setText(currentUser.getRole());
     }
 
     private void signOut() {

@@ -235,17 +235,21 @@ public class MenuActivity extends AppCompatActivity
         TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
         TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
         TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
         headerName.setText(userModel.getName());
         headerEmail.setText(mAuth.getCurrentUser().getEmail());
         headerBirth.setText(userModel.getBirth());
+        headerRole.setText(userModel.getRole());
     }
 
     public void get_current_user() {
         headerView = navigationView.getHeaderView(0);
         TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
         TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
         currentUser.setName(headerName.getText().toString());
         currentUser.setBirth(headerBirth.getText().toString());
+        currentUser.setRole(headerRole.getText().toString());
     }
 
     private void signOut() {

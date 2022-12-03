@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.clear();
                     editor.commit();
                 }
-                loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                confirmApproveLogin(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
 
@@ -190,6 +190,30 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void confirmApproveLogin(String email,String password) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("waitToApprove");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean check = true;
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    String key = child.getValue(String.class);
+                    System.out.println(key);
+                    if(key.equals(email)) {
+                        Toast.makeText(MainActivity.this, "승인되지 않은 메일입니다. 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                        check = false;
+                    }
+                }
+                if(check == true) {
+                    loginUser(email,password);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     /*
