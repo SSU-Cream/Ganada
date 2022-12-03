@@ -18,6 +18,7 @@ public class PracticeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_practice_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

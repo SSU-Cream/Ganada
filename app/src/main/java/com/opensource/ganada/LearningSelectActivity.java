@@ -175,7 +175,7 @@ public class LearningSelectActivity extends AppCompatActivity
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         toolbarText.setText("연습할 아동 선택");
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

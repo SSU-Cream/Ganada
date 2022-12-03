@@ -158,7 +158,7 @@ public class ModifyMemeberInfo extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);

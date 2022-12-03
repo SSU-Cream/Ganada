@@ -17,7 +17,7 @@
         android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="가나다"
-        android:textColor="#FF5A5A"
+        android:textColor="#B2D3D4"
         android:fontFamily="@font/exam"
         android:textSize="70dp">
     </TextView>
@@ -31,7 +31,7 @@
         android:fontFamily="@font/exam"
         android:gravity="center"
         android:text="입모양 시뮬레이션"
-        android:textColor="#147FFF"
+        android:textColor="#E8CAA4"
         android:textSize="25dp">
     </TextView>
 
@@ -95,13 +95,13 @@
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_button"
-        android:text="로그인"
-        android:textSize="18dp"
-        android:fontFamily="@font/exam"
-        android:textColor="#FFFFFF"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_button6"
+        android:fontFamily="@font/exam"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
         app:layout_constraintEnd_toStartOf="@+id/joinMemberButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:background="@drawable/round_button2"
+            android:background="@drawable/round_button5"
             android:fontFamily="@font/exam"
             android:text="회원가입"
             android:textColor="#FFFFFF"

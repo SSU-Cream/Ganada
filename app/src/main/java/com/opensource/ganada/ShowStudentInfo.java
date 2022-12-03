@@ -171,7 +171,7 @@ public class ShowStudentInfo extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
         toolbarText.setText("학습 아동 세부 관리");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);

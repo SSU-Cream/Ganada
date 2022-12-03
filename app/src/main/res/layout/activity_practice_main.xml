@@ -78,7 +78,7 @@
             android:layout_width="86dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/round_button2"
+            android:background="@drawable/round_button5"
             android:text="촬영"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -93,7 +93,7 @@
             android:layout_width="86dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/round_button2"
+            android:background="@drawable/round_button5"
             android:text="채점"
             android:textSize="15dp"
             android:textStyle="bold" />

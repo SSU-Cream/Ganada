@@ -55,12 +55,13 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_practice);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
         toolbarText.setText("학습하기");
 
         btn_previous = findViewById(R.id.previous);

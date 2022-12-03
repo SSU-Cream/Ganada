@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -204,6 +205,7 @@ public class MenuActivity extends AppCompatActivity
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,

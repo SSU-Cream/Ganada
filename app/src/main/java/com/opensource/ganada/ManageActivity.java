@@ -190,7 +190,7 @@ public class ManageActivity extends AppCompatActivity
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         toolbarText.setText("학습 아동 관리");
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
+        toolbar.setBackgroundColor(Color.parseColor("#E8CAA4"));
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
