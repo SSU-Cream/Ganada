@@ -27,6 +27,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,8 @@ public class CommunityActivity extends AppCompatActivity
     RecyclerView recyclerView;
     PostAdapter adapter;
     Button addPost;
+    private TextView roleText;
+    private Switch onlyRoleSwitch;
     ArrayList<PostItem> postItems;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -83,11 +87,15 @@ public class CommunityActivity extends AppCompatActivity
         context_community = this;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         addPost = (Button) findViewById(R.id.addPost);
+        roleText = (TextView) findViewById(R.id.role_text);
+        onlyRoleSwitch = (Switch) findViewById(R.id.only_role_switch);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         postItems = new ArrayList<PostItem>();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         toolbarText.setText("커뮤니티");
+        if(currentUser.getRole().equals("Teacher")) { roleText.setText("교사 게시판"); }
+        else { roleText.setText("학부모 게시판"); }
 
         setSideNavBar();
         set_header_content();
@@ -100,9 +108,8 @@ public class CommunityActivity extends AppCompatActivity
 
         adapter = new PostAdapter(getApplicationContext());
 
-        getPostDatas(adapter,postItems);
-
         recyclerView.setAdapter(adapter);
+        getPostCommonDatas(adapter,postItems);
         adapter.notifyDataSetChanged();
 
         adapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
@@ -115,6 +122,22 @@ public class CommunityActivity extends AppCompatActivity
                 intent.putExtra("user",currentUser);
                 intent.putExtra("item",item);
                 startActivity(intent);
+            }
+        });
+
+        onlyRoleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                String r;
+                if(currentUser.getRole().equals("Teacher")) { r = "교사"; }
+                else { r = "학부모"; }
+                if(isChecked) {
+                    getPostRoleDatas(adapter,postItems);
+                    Toast.makeText(getApplicationContext(), r + " 게시판입니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    getPostCommonDatas(adapter,postItems);
+                    Toast.makeText(getApplicationContext(), "공통 게시판입니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -138,6 +161,8 @@ public class CommunityActivity extends AppCompatActivity
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,21 +256,50 @@ public class CommunityActivity extends AppCompatActivity
         TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
         TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
         TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
         headerName.setText(currentUser.getName());
         headerEmail.setText(mAuth.getCurrentUser().getEmail());
         headerBirth.setText(currentUser.getBirth());
+        headerRole.setText(currentUser.getRole());
     }
 
-    public void getPostDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
+    public void getPostCommonDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
         mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clearItem();
                 postItems.clear();
                 for(DataSnapshot child : snapshot.getChildren()) {
                     PostItem postItem = child.getValue(PostItem.class);
-                    postItems.add(postItem);
-                    adapter.addItem(postItem);
+                    if(postItem.getRole().equals("Common")) {
+                        postItems.add(postItem);
+                        adapter.addItem(postItem);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void getPostRoleDatas(PostAdapter adapter, ArrayList<PostItem> postItems) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("communityData").child("posts");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clearItem();
+                postItems.clear();
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    PostItem postItem = child.getValue(PostItem.class);
+                    if(postItem.getRole().equals(currentUser.getRole())) {
+                        postItems.add(postItem);
+                        adapter.addItem(postItem);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }

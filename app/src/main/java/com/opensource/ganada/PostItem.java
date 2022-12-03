@@ -9,18 +9,20 @@ public class PostItem implements Serializable {
     private String content;
     private String date;
     private String like;
+    private String role;
     private boolean annoymity;
 
     public PostItem() {
     }
 
-    public PostItem(String post_key, String title, String writer, String content, String date, String like, boolean annoymity) {
+    public PostItem(String post_key, String title, String writer, String content, String date, String like, String role, boolean annoymity) {
         this.post_key = post_key;
         this.title = title;
         this.writer = writer;
         this.content = content;
         this.date = date;
         this.like = like;
+        this.role = role;
         this.annoymity = annoymity;
     }
 
@@ -78,5 +80,13 @@ public class PostItem implements Serializable {
 
     public void setAnnoymity(boolean annoymity) {
         this.annoymity = annoymity;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

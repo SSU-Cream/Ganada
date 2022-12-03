@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +43,7 @@ public class Posting extends AppCompatActivity
     private EditText postTitle;
     private EditText postContent;
     private CheckBox annoymity_checkBox;
+    private CheckBox only_role_checkBox;
     private Button posting_button;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -64,6 +64,7 @@ public class Posting extends AppCompatActivity
         postTitle = (EditText) findViewById(R.id.show_post_title);
         postContent = (EditText) findViewById(R.id.postContent);
         annoymity_checkBox = (CheckBox) findViewById(R.id.annoymity_checkBox);
+        only_role_checkBox = (CheckBox) findViewById(R.id.only_role_checkBox);
         posting_button = (Button) findViewById(R.id.posting_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -79,7 +80,13 @@ public class Posting extends AppCompatActivity
                 String content = postContent.getText().toString();
                 String date = getDate();
                 boolean is_annoymity = annoymity_checkBox.isChecked();
-                PostItem postItem = new PostItem("1", title, user_email, content, date, "0", is_annoymity);
+                String role;
+                if(only_role_checkBox.isChecked()) {
+                    role = currentUser.getRole();
+                } else {
+                    role = "Common";
+                }
+                PostItem postItem = new PostItem("1", title, user_email, content, date, "0", role, is_annoymity);
                 savePostData(postItem);
                 /*Intent intent = new Intent(Posting.this,CommunityActivity.class);
                 intent.putExtra("user",currentUser);
@@ -191,9 +198,11 @@ public class Posting extends AppCompatActivity
         TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
         TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
         TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
+        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
         headerName.setText(currentUser.getName());
         headerEmail.setText(mAuth.getCurrentUser().getEmail());
         headerBirth.setText(currentUser.getBirth());
+        headerRole.setText(currentUser.getRole());
     }
 
     private void signOut() {

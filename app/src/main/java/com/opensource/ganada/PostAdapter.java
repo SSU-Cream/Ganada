@@ -54,6 +54,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return items.get(position);
     }
 
+    public void clearItem() {
+        items.clear();
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

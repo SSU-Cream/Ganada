@@ -6,13 +6,21 @@ public class UserModel implements Serializable {
     private String name;
     private String birth;
     private String uid;
+    private String role;
 
     public UserModel() {}
 
     public UserModel(String name, String birth, String uid) {
-        this.uid = uid;
         this.name = name;
         this.birth = birth;
+        this.uid = uid;
+    }
+
+    public UserModel(String name, String birth, String uid, String role) {
+        this.name = name;
+        this.birth = birth;
+        this.uid = uid;
+        this.role = role;
     }
 
     public String getName() {
@@ -37,5 +45,13 @@ public class UserModel implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
