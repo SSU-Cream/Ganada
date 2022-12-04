@@ -92,11 +92,13 @@
                             android:minWidth="48dp" />
 
                         <TextView
+                            android:id="@+id/roletext"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="role만"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                 </LinearLayout>

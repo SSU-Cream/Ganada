@@ -50,6 +50,7 @@ public class Posting extends AppCompatActivity
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private View headerView;
+    private TextView roleText;
     UserModel currentUser;
 
     @Override
@@ -67,9 +68,15 @@ public class Posting extends AppCompatActivity
         only_role_checkBox = (CheckBox) findViewById(R.id.only_role_checkBox);
         posting_button = (Button) findViewById(R.id.posting_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        roleText = (TextView) findViewById(R.id.roletext);
 
         setSideNavBar();
         set_header_content();
+        if(currentUser.getRole().equals("Teacher")) {
+            roleText.setText("교사만");
+        } else {
+            roleText.setText("부모만");
+        }
 
         posting_button.setOnClickListener(new View.OnClickListener() {
             @Override

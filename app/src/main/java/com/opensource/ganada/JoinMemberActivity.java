@@ -43,6 +43,7 @@ public class JoinMemberActivity extends AppCompatActivity {
                             "28"    /* minimumVersion */)
                     .build();
 
+    private FirebaseAuth auth;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private EditText editTextEmail;
@@ -73,6 +74,7 @@ public class JoinMemberActivity extends AppCompatActivity {
         Button passwd_check_button = (Button) findViewById(R.id.find_email_pwd_button);
         isTeacher.setOnClickListener(roleCheckBox);
         isParent.setOnClickListener(roleCheckBox);
+        getManger();
 
 
         dayPicker.setMaxDate(System.currentTimeMillis());        // DatePicker 최대선택날짜 현재시간으로 제한
@@ -106,11 +108,12 @@ public class JoinMemberActivity extends AppCompatActivity {
         joinMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
                 if(isTeacher.isChecked()) {
                     sendVerticalEmail();
                     addWaitPeople(editTextEmail.getText().toString());
                 }
+                //FirebaseAuth.getInstance().signOut();
+                createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
 
@@ -186,9 +189,9 @@ public class JoinMemberActivity extends AppCompatActivity {
                 });
     }
 
-    public void sendVerticalEmail() {
+    public void getManger() {
         String email = "eric8758@naver.com";
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(email, "qwer1234")
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -198,12 +201,16 @@ public class JoinMemberActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void sendVerticalEmail() {
+        auth = FirebaseAuth.getInstance();
         auth.getCurrentUser().sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            System.out.println("성공입니당");
+                            //System.out.println("성공입니당");
                         }
                     }
                 });
