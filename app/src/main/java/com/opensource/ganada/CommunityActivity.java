@@ -1,14 +1,10 @@
 package com.opensource.ganada;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,17 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +36,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CommunityActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,9 +44,9 @@ public class CommunityActivity extends AppCompatActivity
     LinearLayoutManager layoutManager;
     RecyclerView recyclerView;
     PostAdapter adapter;
-    Button addPost;
-    private TextView roleText;
-    private Switch onlyRoleSwitch;
+    ImageView addPost;
+    Button commonButton;
+    Button roleButton;
     ArrayList<PostItem> postItems;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -86,16 +80,18 @@ public class CommunityActivity extends AppCompatActivity
         currentUser = (UserModel) intent.getSerializableExtra("user");
         context_community = this;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        addPost = (Button) findViewById(R.id.addPost);
-        roleText = (TextView) findViewById(R.id.role_text);
-        onlyRoleSwitch = (Switch) findViewById(R.id.only_role_switch);
+        addPost = (ImageView) findViewById(R.id.addPost);
+        commonButton = (Button) findViewById(R.id.common_post_button);
+        roleButton = (Button) findViewById(R.id.role_post_button);
+        commonButton.setOnClickListener(postType);
+        roleButton.setOnClickListener(postType);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         postItems = new ArrayList<PostItem>();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         toolbarText.setText("커뮤니티");
-        if(currentUser.getRole().equals("Teacher")) { roleText.setText("교사 게시판"); }
-        else { roleText.setText("학부모 게시판"); }
+        if(currentUser.getRole().equals("Teacher")) { roleButton.setText("교사 게시판"); }
+        else { roleButton.setText("학부모 게시판"); }
 
         setSideNavBar();
         set_header_content();
@@ -103,7 +99,7 @@ public class CommunityActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
-        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.blue_line));
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.gray_line));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         adapter = new PostAdapter(getApplicationContext());
@@ -122,22 +118,6 @@ public class CommunityActivity extends AppCompatActivity
                 intent.putExtra("user",currentUser);
                 intent.putExtra("item",item);
                 startActivity(intent);
-            }
-        });
-
-        onlyRoleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                String r;
-                if(currentUser.getRole().equals("Teacher")) { r = "교사"; }
-                else { r = "학부모"; }
-                if(isChecked) {
-                    getPostRoleDatas(adapter,postItems);
-                    Toast.makeText(getApplicationContext(), r + " 게시판입니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    getPostCommonDatas(adapter,postItems);
-                    Toast.makeText(getApplicationContext(), "공통 게시판입니다.", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -162,7 +142,40 @@ public class CommunityActivity extends AppCompatActivity
         });
     }
 
+    View.OnClickListener postType = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.common_post_button:
+                    commonButton.setTextColor(Color.parseColor("#FFFFFF"));
+                    roleButton.setTextColor(Color.parseColor("#BBBBBB"));
+                    commonButton.setEnabled(false);
+                    roleButton.setEnabled(true);
+                    commonButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
+                    roleButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
+                    getPostCommonDatas(adapter,postItems);
+                    Toast.makeText(getApplicationContext(), "공통 게시판입니다.", Toast.LENGTH_SHORT).show();
+                    break;
 
+                case R.id.role_post_button:
+                    commonButton.setTextColor(Color.parseColor("#BBBBBB"));
+                    roleButton.setTextColor(Color.parseColor("#FFFFFF"));
+                    commonButton.setEnabled(true);
+                    roleButton.setEnabled(false);
+                    commonButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
+                    roleButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
+                    String r;
+                    if(currentUser.getRole().equals("Teacher")) r = "교사";
+                    else r = "학부모";
+                    getPostRoleDatas(adapter,postItems);
+                    Toast.makeText(getApplicationContext(), r + " 게시판입니다.", Toast.LENGTH_SHORT).show();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,12 +244,12 @@ public class CommunityActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("커뮤니티");
+        toolbarText.setText(" ");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
