@@ -39,7 +39,7 @@ public class ShowStudentInfo extends AppCompatActivity
     private TextView show_student_score;
     private EditText show_detail_record;
     private Button revise_student_info_button;
-    private Button delete_student_button;
+    //private Button delete_student_button;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -63,7 +63,7 @@ public class ShowStudentInfo extends AppCompatActivity
         show_student_score = (TextView) findViewById(R.id.show_student_score);
         show_detail_record = (EditText) findViewById(R.id.show_detail_record);
         revise_student_info_button = (Button) findViewById(R.id.revise_student_info_button);
-        delete_student_button = (Button) findViewById(R.id.delete_student_button);
+        //delete_student_button = (Button) findViewById(R.id.delete_student_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
@@ -83,12 +83,12 @@ public class ShowStudentInfo extends AppCompatActivity
             }
         });
 
-        delete_student_button.setOnClickListener(new View.OnClickListener() {
+        /*delete_student_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 delete_student(studentItem);
             }
-        });
+        });*/
 
         headerView = navigationView.getHeaderView(0);
         Button headerBack = (Button) headerView.findViewById(R.id.header_back);
@@ -171,8 +171,8 @@ public class ShowStudentInfo extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
-        toolbarText.setText("학습 아동 세부 관리");
+        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        toolbarText.setText(" ");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -260,7 +260,7 @@ public class ShowStudentInfo extends AppCompatActivity
     public void set_student_info(StudentItem studentItem) {
         String allScore = "";
         show_student_name.setText(studentItem.getName());
-        show_student_age.setText(Integer.toString(studentItem.getAge()));
+        show_student_age.setText(Integer.toString(studentItem.getAge()) + "세");
         if(studentItem.getScores()==null || studentItem.getScores().size()==0) {
             allScore = "점수 없음";
         }

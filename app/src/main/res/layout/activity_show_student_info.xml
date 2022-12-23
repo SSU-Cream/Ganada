@@ -22,43 +22,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="@drawable/gray_round_top"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="7dp"
-                    android:textAlignment="center">
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="나이 : "
-                        android:textColor="#000000"
-                        android:textSize="17dp" />
-
-                    <TextView
-                        android:id="@+id/show_student_age"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="age"
-                        android:textColor="#000000"
-                        android:textSize="17dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="#ECECEC"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="7dp"
+                    android:layout_height="80dp"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="16dp"
                     android:textAlignment="center">
 
                     <TextView
@@ -66,25 +41,57 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="이름 : "
-                        android:textColor="#000000"
-                        android:textSize="17dp" />
+                        android:textColor="#BBBBBB"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/show_student_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
                         android:hint="name"
                         android:textColor="#000000"
-                        android:textSize="17dp" />
+                        android:textSize="22dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@drawable/gray_round_top"
+                    android:orientation="vertical"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="16dp"
+                    android:textAlignment="center">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="나이 : "
+                        android:textColor="#BBBBBB"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/show_student_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:hint="age"
+                        android:textColor="#000000"
+                        android:textSize="22dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ECECEC"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="7dp"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="16dp"
                     android:textAlignment="center">
 
                     <TextView
@@ -92,90 +99,74 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="점수 : "
-                        android:textColor="#000000"
-                        android:textSize="17dp" />
+                        android:textColor="#BBBBBB"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/show_student_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
                         android:hint="score"
                         android:textColor="#000000"
-                        android:textSize="17dp" />
+                        android:textSize="22dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="@drawable/gray_round_bottom"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
                     android:orientation="vertical"
-                    android:padding="7dp"
+
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="16dp"
                     android:textAlignment="center">
 
                     <TextView
                         android:id="@+id/textView8"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="비고"
-                        android:textColor="#000000"
-                        android:textSize="17dp" />
+                        android:textColor="#BBBBBB"
+                        android:textSize="15dp" />
 
                     <EditText
                         android:id="@+id/show_detail_record"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="7dp"
                         android:ems="10"
-                        android:hint="비고"
+                        android:hint="기타 아동 관련 정보"
                         android:inputType="textPersonName"
                         android:minHeight="48dp"
                         android:textColor="#000000"
-                        android:textSize="17dp"
+                        android:textSize="22dp"
                         tools:ignore="TouchTargetSizeCheck" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
 
                 <Button
                     android:id="@+id/revise_student_info_button"
-                    android:layout_width="130dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_gravity="center|top"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@drawable/round_button2"
+                    android:backgroundTint="#AAAAAA"
                     android:text="수정"
+                    android:textColor="#FFFFFF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/delete_student_button"
-                    android:layout_width="130dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center|top"
-                    android:background="@drawable/round_button2"
-                    android:text="삭제"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
 
             </LinearLayout>
         </LinearLayout>
