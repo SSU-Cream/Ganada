@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,18 +43,23 @@ public class MenuActivity extends AppCompatActivity
     private UserModel currentUser = new UserModel();
     private View headerView;
     long pressedTime = 0L;
+    TextView menuName;
+    TextView menuRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         mAuth = FirebaseAuth.getInstance();
-        Button manageButton = (Button) findViewById(R.id.manageButton);
-        Button practiceButton = (Button) findViewById(R.id.practiceButton);
-        Button communityButton = (Button) findViewById(R.id.communityButton);
-        Button learningButton = (Button) findViewById(R.id.learningButton);
+        View manageButton = (View) findViewById(R.id.manageButton);
+        View practiceButton = (View) findViewById(R.id.practiceButton);
+        View communityButton = (View) findViewById(R.id.communityButton);
+        View learningButton = (View) findViewById(R.id.learningButton);
+        menuName = (TextView) findViewById(R.id.menu_name);
+        menuRole = (TextView)findViewById(R.id.menu_role);
         setSideNavBar();
         get_user_info();
+        get_current_user();
 
         manageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +203,8 @@ public class MenuActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("메뉴");
+        toolbar.setBackgroundColor(Color.parseColor("#FCEDE6"));
+        toolbarText.setText(" ");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -222,6 +230,11 @@ public class MenuActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserModel user = snapshot.getValue(UserModel.class);
                 set_header_content(user);
+                menuName.setText(user.getName()+"님");
+                if(user.getRole().equals("Teacher")) {
+                    menuRole.setText("교사");
+                    menuRole.setBackgroundColor(Color.parseColor("#FF9A51"));
+                }
             }
 
             @Override

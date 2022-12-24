@@ -20,72 +20,220 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#FCEDE6"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/menu_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="16dp"
+                        android:text="OO님"
+                        android:textColor="#000000"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/learningButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/round_button3"
-                    android:drawableTop="@drawable/practice"
-                    android:fontFamily="@font/exam"
-                    android:padding="45dp"
-                    android:text="연습하기"
-                    android:textSize="30dp" />
+                    <TextView
+                        android:id="@+id/menu_role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/round_button"
+                        android:backgroundTint="#81d654"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="학부모"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18dp" />
 
-                <Button
-                    android:id="@+id/practiceButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/round_button3"
-                    android:drawableTop="@drawable/study"
-                    android:fontFamily="@font/exam"
-                    android:padding="45dp"
-                    android:text="학습하기"
-                    android:textSize="30dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="순우리말 입모양 시뮬레이션으로"
+                    android:textColor="#BBBBBB" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:text="효과적인 한글 학습을 시작하세요."
+                    android:textColor="#BBBBBB" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/communityButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/round_button3"
-                    android:drawableTop="@drawable/speaker"
-                    android:fontFamily="@font/exam"
-                    android:padding="45dp"
-                    android:text="소통창구"
-                    android:textSize="30dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#FCEDE6"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/manageButton"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/round_button3"
-                    android:drawableTop="@drawable/manage"
-                    android:fontFamily="@font/exam"
-                    android:padding="45dp"
-                    android:text="회원관리"
-                    android:textSize="30dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gray_round_top" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/practiceButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_study">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:text="학습하기"
+                            android:textColor="#000000"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_gravity="bottom|right"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="12dp"
+                            android:src="@drawable/ic_study" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="24dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/learningButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/bg_practice"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingLeft="16dp"
+                                android:paddingTop="16dp"
+                                android:text="연습하기"
+                                android:textColor="#000000"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="bottom|right"
+                                android:paddingRight="12dp"
+                                android:paddingBottom="12dp"
+                                android:src="@drawable/ic_practice" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/manageButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_manage">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingLeft="16dp"
+                                android:paddingTop="16dp"
+                                android:text="아동관리"
+                                android:textColor="#000000"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="bottom|right"
+                                android:paddingRight="12dp"
+                                android:paddingBottom="12dp"
+                                android:src="@drawable/ic_manage" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/communityButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/bg_community">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:text="소통하기"
+                            android:textColor="#000000"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_gravity="bottom|right"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="12dp"
+                            android:src="@drawable/ic_community" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/navigationView"
             android:layout_gravity="left"
             app:headerLayout="@layout/header_layout"
             app:menu="@menu/drawer_menu">

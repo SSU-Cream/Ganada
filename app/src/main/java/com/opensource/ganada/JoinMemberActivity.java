@@ -65,7 +65,11 @@ public class JoinMemberActivity extends AppCompatActivity {
         fragment1 = new FirstJoinFragment();
         fragment2 = new SecondJoinFragment();
         FragmentView(1);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ImageView join_back = (ImageView) findViewById(R.id.join_back);
         joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
+
         joinMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,12 +87,13 @@ public class JoinMemberActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        ImageView join_back = (ImageView) findViewById(R.id.join_back);
-        //dayPicker = (DatePicker) findViewById(R.id.revise_dayspin);
+        join_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
-        //dayPicker.setMaxDate(System.currentTimeMillis());        // DatePicker 최대선택날짜 현재시간으로 제한
 
         /*
         Re-execute the password verification button when changing the password.
@@ -107,38 +112,7 @@ public class JoinMemberActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) { }
         };
         editTextPassword.addTextChangedListener(textWatcher);
-        passwd_check.addTextChangedListener(textWatcher);
-
-        join_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        joinMemberButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-                /*if(isTeacher.isChecked()) {
-                    sendVerticalEmail();
-                    addWaitPeople(editTextEmail.getText().toString());
-                }*/
-            /*}
-        });
-
-        passwd_check_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(editTextPassword.getText().toString().equals(passwd_check.getText().toString())) {
-                    Toast.makeText(JoinMemberActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
-                    is_checked = true;
-                }
-                else {
-                    Toast.makeText(JoinMemberActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
+        passwd_check.addTextChangedListener(textWatcher);*/
     }
 
     private void FragmentView(int fragment) {

@@ -22,7 +22,7 @@ public class FirstJoinFragment extends Fragment implements View.OnClickListener{
     View is_parent;
     View check1;
     View check2;
-    String birth;
+    String birth = "";
     TextView birthText;
     ImageButton openCalender;
     int role = 0;
