@@ -27,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class ShowPost extends AppCompatActivity
     TextView show_post_writer;
     TextView show_post_date;
     TextView show_post_content;
+    TextView commentCount;
     CheckBox annoymity_comment;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -64,6 +66,7 @@ public class ShowPost extends AppCompatActivity
     private ActionBarDrawerToggle drawerToggle;
     private View headerView;
     UserModel currentUser;
+    int commentNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +74,16 @@ public class ShowPost extends AppCompatActivity
         setContentView(R.layout.activity_show_post);
 
         mAuth = FirebaseAuth.getInstance();
-        Button delete_post_button = (Button) findViewById(R.id.delete_post_button);
-        Button revise_post_button = (Button) findViewById(R.id.revise_post_button);
-        Button add_comment_button = (Button) findViewById(R.id.add_comment_button);
         Intent intent = getIntent();
         currentUser = (UserModel) intent.getSerializableExtra("user");
         PostItem postItem = (PostItem) intent.getSerializableExtra("item");
+        String pType = intent.getStringExtra("type");
+
+        ImageButton delete_post_button = (ImageButton) findViewById(R.id.delete_post_button);
+        ImageButton revise_post_button = (ImageButton) findViewById(R.id.revise_post_button);
+        ImageButton add_comment_button = (ImageButton) findViewById(R.id.add_comment_button);
+        TextView postingType = (TextView) findViewById(R.id.posting_type);
+        commentCount = (TextView) findViewById(R.id.comment_count);
         show_post_title = (TextView) findViewById(R.id.show_post_title);
         show_post_writer = (TextView) findViewById(R.id.show_post_writer);
         show_post_date = (TextView) findViewById(R.id.show_post_date);
@@ -89,6 +96,7 @@ public class ShowPost extends AppCompatActivity
         set_header_content();
 
         show_post_title.setText(postItem.getTitle());
+        postingType.setText(pType);
         listView = (ListView) findViewById(R.id.comments);
         adapter = new CommentAdapter();
 
@@ -218,12 +226,12 @@ public class ShowPost extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText("게시글");
+        toolbarText.setText(" ");
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#8DA4D0"));
+        toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -385,8 +393,10 @@ public class ShowPost extends AppCompatActivity
                 for(DataSnapshot child : snapshot.getChildren()) {
                     CommentItem item = child.getValue(CommentItem.class);
                     adapter.addItem(item);
+                    commentNum++;
                 }
                 adapter.notifyDataSetChanged();
+                commentCount.setText("댓글 " + String.valueOf(commentNum) + "개");
             }
 
             @Override

@@ -57,6 +57,7 @@ public class CommunityActivity extends AppCompatActivity
     public static Context context_community;
     public int var;
     Intent intent;
+    String postingType = "공통 게시판";
 
     /*ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -117,6 +118,7 @@ public class CommunityActivity extends AppCompatActivity
                 Intent intent = new Intent(getApplicationContext(), ShowPost.class);
                 intent.putExtra("user",currentUser);
                 intent.putExtra("item",item);
+                intent.putExtra("type",postingType);
                 startActivity(intent);
             }
         });
@@ -154,6 +156,7 @@ public class CommunityActivity extends AppCompatActivity
                     commonButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
                     roleButton.setBackgroundTintList(getResources().getColorStateList(R.color.button_color));
                     getPostCommonDatas(adapter,postItems);
+                    postingType = "공통 게시판";
                     Toast.makeText(getApplicationContext(), "공통 게시판입니다.", Toast.LENGTH_SHORT).show();
                     break;
 
@@ -168,6 +171,7 @@ public class CommunityActivity extends AppCompatActivity
                     if(currentUser.getRole().equals("Teacher")) r = "교사";
                     else r = "학부모";
                     getPostRoleDatas(adapter,postItems);
+                    postingType = r + " 게시판";
                     Toast.makeText(getApplicationContext(), r + " 게시판입니다.", Toast.LENGTH_SHORT).show();
                     break;
 
