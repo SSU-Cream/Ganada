@@ -43,7 +43,6 @@ public class FirstJoinFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.is_teacher:
-                Log.d("test","성공");
                 check1 = root.findViewById(R.id.check1);
                 check2 = root.findViewById(R.id.check2);
                 check1.setVisibility(View.VISIBLE);

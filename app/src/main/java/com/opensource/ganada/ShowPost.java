@@ -46,8 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ShowPost extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ShowPost extends AppCompatActivity {
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -91,9 +90,13 @@ public class ShowPost extends AppCompatActivity
         new_comment = (EditText) findViewById(R.id.new_comment);
         annoymity_comment = (CheckBox) findViewById(R.id.annoymity_checkBox);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        setSideNavBar();
-        set_header_content();
+        setSupportActionBar(toolbar);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        toolbarText.setText(" ");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         show_post_title.setText(postItem.getTitle());
         postingType.setText(pType);
@@ -150,157 +153,16 @@ public class ShowPost extends AppCompatActivity
             }
         });
 
-        headerView = navigationView.getHeaderView(0);
-        Button headerBack = (Button) headerView.findViewById(R.id.header_back);
-        headerBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //추가된 소스, ToolBar에 menu.xml을 인플레이트함
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.back) {
-            onBackPressed();
-            return true;
-        }
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item1:
-                Toast.makeText(getApplicationContext(),"로그아웃 하였습니다",Toast.LENGTH_SHORT).show();
-                signOut();
-                break;
-            case R.id.menu_item2:
-                Intent intent = new Intent(getApplicationContext(), ModifyMemeberInfo.class);
-                intent.putExtra("user",currentUser);
-                startActivity(intent);
-                break;
-            case R.id.menu_item3:
-                show_delete_member_dlg();
-                break;
-        }
-        return false;
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
-            intent.putExtra("user",currentUser);
-            startActivity(intent);
-            super.onBackPressed();
-        }
-    }
-
-    public void setSideNavBar() {
-        setSupportActionBar(toolbar);
-
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
-        toolbarText.setText(" ");
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_menu_layout);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close
-        );
-        drawerLayout.addDrawerListener(drawerToggle);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    public void set_header_content() {
-        headerView = navigationView.getHeaderView(0);
-        TextView headerName = (TextView) headerView.findViewById(R.id.header_name);
-        TextView headerEmail = (TextView) headerView.findViewById(R.id.header_email);
-        TextView headerBirth = (TextView) headerView.findViewById(R.id.header_birth);
-        TextView headerRole = (TextView) headerView.findViewById(R.id.header_role);
-        headerName.setText(currentUser.getName());
-        headerEmail.setText(mAuth.getCurrentUser().getEmail());
-        headerBirth.setText(currentUser.getBirth());
-        headerRole.setText(currentUser.getRole());
-    }
-
-    private void signOut() {
-        FirebaseAuth.getInstance().signOut();
-        finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CommunityActivity.class);
+        intent.putExtra("user",currentUser);
         startActivity(intent);
+        super.onBackPressed();
     }
 
-    private void deleteMember() {
-        Toast.makeText(getApplicationContext(),"탈퇴 하였습니다",Toast.LENGTH_SHORT).show();
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
-        mDatabase.removeValue();
-        mAuth.getCurrentUser().delete();
-
-        finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void delete_find_data(String deleteKey) {
-        mDatabase = FirebaseDatabase.getInstance().getReference("findData").child(deleteKey);
-        mDatabase.removeValue();
-    }
-
-    private void show_delete_member_dlg() {
-        androidx.appcompat.app.AlertDialog.Builder deleteMemberDlg = new androidx.appcompat.app.AlertDialog.Builder(this);
-        deleteMemberDlg.setTitle("정말 탈퇴 하시겠습니까?");
-        deleteMemberDlg.setIcon(R.drawable.pic1);
-        deleteMemberDlg.setNegativeButton("네", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                deleteMember();
-                delete_find_data(currentUser.getName()+currentUser.getBirth());
-            }
-        });
-        deleteMemberDlg.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        deleteMemberDlg.show();
-    }
 
     class CommentAdapter extends BaseAdapter {
         ArrayList<CommentItem> items = new ArrayList<CommentItem>();
