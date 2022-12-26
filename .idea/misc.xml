@@ -82,6 +82,7 @@
         <entry key="app/src/main/res/layout/register_student.xml" value="0.2671875" />
         <entry key="app/src/main/res/layout/student_item.xml" value="0.2671875" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.2671875" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.2625" />
       </map>
     </option>
   </component>

@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.media.CamcorderProfile;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -27,23 +27,28 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
-import java.util.ArrayDeque;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
@@ -54,9 +59,11 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private SurfaceView surfaceView;
     private Button btn_record_start, btn_record_stop;
 
-    ArrayList<String> content = new ArrayList<String>(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"));
-    ArrayList<String> contentText = new ArrayList<String>(Arrays.asList("기역", "니은", "디귿", "리을", "미음", "비읍", "시옷", "이응", "지읒", "치읓", "키읔", "티읕", "피읖", "히읗"));
+    ArrayList<String> content = new ArrayList(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"));
+    ArrayList<String> contentText = new ArrayList(Arrays.asList("기역", "니은", "디귿", "리을", "미음", "비읍", "시옷", "이응", "지읒", "치읓", "키읔", "티읕", "피읖", "히읗"));
 
+    // "ㅂ", "ㅅ", "ㅈ"
+    // "비읍", "시옷", "지읒"
     private Integer idx = 0;
     private Integer score = 0;
     private Integer random_idx = 0;
@@ -70,9 +77,21 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     File file;
     RequestBody fileBody;
     MultipartBody.Part filePart;
+
+    Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
+
+    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .build();
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://27.35.4.93:3389")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
             .build();
 
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
@@ -134,7 +153,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
                 .check();
 
-
+        Log.d("log", "log test");
 
         setQuestion();
     }
@@ -152,7 +171,7 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     public void onClick(View v) {
         if (v == btn_record_start) {
             System.out.println("record start");
-            //Toast.makeText(LearningActivity.this, "record start" ,Toast.LENGTH_SHORT).show();
+            Log.d("camera", "record onclick");
 
             runOnUiThread(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -162,25 +181,53 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                     Toast.makeText(LearningActivity.this, "start record", Toast.LENGTH_SHORT).show();
                     try {
                         mediaRecorder = new MediaRecorder();
-                        camera.unlock();
+
+//                        camera.unlock();
                         mediaRecorder.setCamera(camera);
                         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                         mediaRecorder.setOrientationHint(270);
-                        mediaRecorder.setOutputFile(file);
-                        //mediaRecorder.setOutputFile("/sdcard/recordtest.mp4");
-                        mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
+                        // mediaRecorder.setOutputFile(file);
+//                        mediaRecorder.setOutputFile("/sdcard/DCIM/Camera/recordtest.mp4");
+//                        mediaRecorder.setOutputFile("./recordtest.mp4");
+//                        mediaRecorder.setOutputFile("/data/user/0/");
+                        mediaRecorder.setOutputFile("/storage/emulated/0/Download/test.mp4");
+                        /*
+                        File dir = Environment.getExternalStorageDirectory();;
+                        File video = null;
+                        try {
+                            video = File.createTempFile("tmp", ".ts", dir);
+                        } catch(IOException e) {
+                            System.err.println("fail to create tmp file");
+                            System.err.println(e);
+
+
+                        }
+
+                        boolean isCreated = video.exists();
+
+                        if (isCreated) {
+                            mediaRecorder.setOutputFile(file);
+                            Toast.makeText(LearningActivity.this, "record -ing", Toast.LENGTH_LONG).show();
+                            mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
+                            mediaRecorder.prepare();
+                            mediaRecorder.start();
+                        } else {
+                            System.err.println("failed to create file");
+                        }
+
+                         */
+
                     } catch (Exception e) {
+                        Log.e("LearningActivity.java", "Error in 79" + e.getMessage());
                         e.printStackTrace();
                         mediaRecorder.release();
                     }
 
                 }
             });
-        }else if (v == btn_record_stop) {
+        } else if (v == btn_record_stop) {
                 System.out.println("record stop");
                 //Toast.makeText(LearningActivity.this, "record stop", Toast.LENGTH_SHORT).show();
 
@@ -188,6 +235,28 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                 mediaRecorder.release();
                 camera.lock();
 
+                /*
+                if (idx < 2) {
+                    idx++;
+                    score++;
+                } else if (idx == 2){
+                    idx++;
+
+                    //item.setScore(score);
+                    //mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
+                    //mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
+
+                    Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    startActivity(intent);
+                }
+                setQuestion();
+
+
+                 */
+
+                file = new File("/sdcard/DCIM/Camera/recordtest.mp4");
                 fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
 
@@ -199,18 +268,21 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                             String result = response.body();
                             Log.d("retrofit", result);
 
+                            if (result.equals("o"))
+                                score++;
+                            /*
                             if (result.equals(contentText.get(random_idx)))
                                 score++;
+                            */
 
-                            Toast.makeText(LearningActivity.this, "문제 : " + contentText.get(random_idx) + ", 서버에서 받은 내용 : " + result + " => 서버 성공?", Toast.LENGTH_LONG).show();
+                            Log.d("result", result);
+                            Toast.makeText(LearningActivity.this, "문제 : " + contentText.get(random_idx) + ", 서버에서 받은 내용 : " + result + " => 서버 성공", Toast.LENGTH_LONG).show();
 
                             if (idx < 2) {
                                 idx++;
-                                // score++;
-                            } else if (idx == 2){
+                            } else if (idx == 2) {
                                 idx++;
 
-                                //item.setScore(score);
                                 mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
                                 mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
 
@@ -225,16 +297,9 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Log.d("retrofit", "POST 실패");
-                        Log.e("retrofit", String.valueOf(t));
 
-                        Toast.makeText(LearningActivity.this, String.valueOf(t) + " 에러 발생으로 인해 종료되었습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
-
-                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                        startActivity(intent);
                     }
                 });
-
 
             }
         }
