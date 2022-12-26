@@ -1,132 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/manage_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_menu_layout"
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:background="#FCEDE6"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/menu_name"
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:text="아동관리"
+            android:textColor="#000000"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:text="학습할 아동을 등록하고 관리할 수 있습니다."
+            android:textColor="#BBBBBB" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="40dp"
+            android:background="#FCEDE6"
+            android:orientation="horizontal">
 
-            <include layout="@layout/toolbar" />
-
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/gray_round_top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/studentAge"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_weight="5"
-                        android:gravity="center"
-                        android:text="나이"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/black_line" />
-
-                    <TextView
-                        android:id="@+id/studentName"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="이름"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/black_line"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/studentRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    android:scrollbarFadeDuration="0"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/gray_round_bottom" >
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="5"/>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/black_line"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/register_student_button"
-                    android:layout_width="130dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/round_button2"
-                    android:text="학생 등록"
-                    android:textColor="#000000"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:background="@drawable/round_top" />
         </LinearLayout>
 
-        <com.google.android.material.navigation.NavigationView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/studentRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/navigationView"
-            android:layout_gravity="left"
-            app:headerLayout="@layout/header_layout"
-            app:menu="@menu/drawer_menu">
+            android:layout_height="wrap_content"
+            android:scrollbarFadeDuration="0"
+            android:scrollbars="vertical" />
 
-        </com.google.android.material.navigation.NavigationView>
+    </LinearLayout>
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:gravity="bottom|center"
+        android:orientation="vertical">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <Button
+            android:id="@+id/register_student_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/round_button2"
+            android:text="학생 등록"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>

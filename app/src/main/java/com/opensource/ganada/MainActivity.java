@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        Button joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
+        TextView joinMemberButton = (TextView) findViewById(R.id.joinMemberButton);
         Button loginButton = (Button) findViewById(R.id.loginButton);
-        Button forget_idpw = (Button) findViewById(R.id.forget_idpw);
+        TextView forget_idpw = (TextView) findViewById(R.id.forget_idpw);
         id_check = (CheckBox) findViewById(R.id.id_check);
-        SignInButton googleLoginButton = (SignInButton) findViewById(R.id.googleLoginButton);
+        //ImageView googleLoginButton = (ImageView) findViewById(R.id.googleLoginButton);
 
         SharedPreferences pref = getSharedPreferences("pref", 0);
         String email = pref.getString("email", "");
@@ -121,16 +122,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        googleLoginButton.setOnClickListener(new View.OnClickListener() {
+        /*googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
-        });
+        });*/
 
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton faceLoginButton = findViewById(R.id.faceLoginButton);
+        LoginButton faceLoginButton = (LoginButton) findViewById(R.id.faceLoginButton);
         faceLoginButton.setReadPermissions("email", "public_profile");
         faceLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override

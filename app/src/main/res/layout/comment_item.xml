@@ -4,67 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/comment_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:hint="email"
+            android:textColor="#555555"
+            android:textColorHint="#78909C"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/gray_line" />
+
+        <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:hint="date"
+            android:textColor="#555555"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/delete_comment_button"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:background="#FFFFFF"
+            android:minWidth="32dp"
+            android:text="X"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/comment_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="12dp"
             android:background="#FFFFFF"
-            android:gravity="center|start"
             android:hint="content"
             android:textColor="#000000"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/delete_comment_button"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:background="#FFFFFF"
-            android:minWidth="32dp"
-            android:text="X"
-            tools:ignore="TouchTargetSizeCheck" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/comment_writer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:hint="email"
-            android:textColor="#000000"
-            android:textColorHint="#78909C"
-            android:textSize="12dp" />
-
-        <TextView
-            android:id="@+id/comment_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:layout_weight="3"
-            android:background="#FFFFFF"
-            android:hint="date"
-            android:textAlignment="viewEnd"
-            android:textColor="#000000"
-            android:textSize="12dp" />
     </LinearLayout>
 
 </LinearLayout>

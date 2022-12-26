@@ -2,6 +2,9 @@ package com.opensource.ganada;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,43 +50,56 @@ public class JoinMemberActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private EditText sign_name;
-    private EditText passwd_check;
-    private DatePicker dayPicker;
-    private CheckBox isTeacher;
-    private CheckBox isParent;
-    private boolean is_checked = false;
+    Button joinMemberButton;
+    FragmentManager fragmentManager;
+    FirstJoinFragment fragment1;
+    SecondJoinFragment fragment2;
+    boolean isLastFragment = false;
+    UserModel userModel = new UserModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_member);
-
+        fragmentManager = getSupportFragmentManager();
+        fragment1 = new FirstJoinFragment();
+        fragment2 = new SecondJoinFragment();
+        FragmentView(1);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        TextView join_back = (TextView) findViewById(R.id.join_back);
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        sign_name = (EditText) findViewById(R.id.sign_name);
-        passwd_check = (EditText) findViewById(R.id.passwd_check);
-        dayPicker = (DatePicker) findViewById(R.id.revise_dayspin);
-        isTeacher = (CheckBox) findViewById(R.id.is_teacher);
-        isParent = (CheckBox) findViewById(R.id.is_parent);
-        Button joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
-        Button passwd_check_button = (Button) findViewById(R.id.find_email_pwd_button);
-        isTeacher.setOnClickListener(roleCheckBox);
-        isParent.setOnClickListener(roleCheckBox);
+        ImageView join_back = (ImageView) findViewById(R.id.join_back);
+        joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
 
+        joinMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isLastFragment) {
+                    FirstJoinFragment fragment = (FirstJoinFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+                    showNextFragment(fragment.getBirthText(), fragment.getRole());
+                } else {
+                    SecondJoinFragment fragment = (SecondJoinFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+                    if(fragment.getPwd().equals(fragment.getCheckPwd())) {
+                        createUser(fragment.getName(),fragment.getEmail(),fragment.getPwd());
+                    } else {
+                        Toast.makeText(JoinMemberActivity.this,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
-        dayPicker.setMaxDate(System.currentTimeMillis());        // DatePicker 최대선택날짜 현재시간으로 제한
+        join_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
         /*
         Re-execute the password verification button when changing the password.
         비밀번호 변경시 비밀번호 확인 버튼 재실행
         */
-        final TextWatcher textWatcher = new TextWatcher() {
+        /*final TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -94,53 +112,23 @@ public class JoinMemberActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) { }
         };
         editTextPassword.addTextChangedListener(textWatcher);
-        passwd_check.addTextChangedListener(textWatcher);
-
-        join_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        joinMemberButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-                if(isTeacher.isChecked()) {
-                    sendVerticalEmail();
-                    addWaitPeople(editTextEmail.getText().toString());
-                }
-            }
-        });
-
-        passwd_check_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(editTextPassword.getText().toString().equals(passwd_check.getText().toString())) {
-                    Toast.makeText(JoinMemberActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
-                    is_checked = true;
-                }
-                else {
-                    Toast.makeText(JoinMemberActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        passwd_check.addTextChangedListener(textWatcher);*/
     }
 
-    View.OnClickListener roleCheckBox = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.is_teacher:
-                    isParent.setChecked(false);
-                    break;
-                case R.id.is_parent:
-                    isTeacher.setChecked(false);
-                    break;
-            }
+    private void FragmentView(int fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        switch (fragment) {
+            case 1:
+                transaction.replace(R.id.fragment_container, fragment1);
+                transaction.commit();
+                break;
+            case 2:
+                transaction.replace(R.id.fragment_container, fragment2);
+                transaction.commit();
+                break;
         }
-    };
+    }
 
     @Override
     public void onBackPressed() {
@@ -149,22 +137,32 @@ public class JoinMemberActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void showNextFragment(String birth, int role) {
+        if(birth.equals("")) {
+            Toast.makeText(getApplicationContext(),"생년월일을 선택해 주세요.", Toast.LENGTH_SHORT).show(); return;
+        }
+        userModel.setBirth(birth);
+        if(role == 0) {
+            Toast.makeText(getApplicationContext(),"교사, 학부모 여부를 선택해 주세요.", Toast.LENGTH_SHORT).show(); return;
+        } else if(role == 1) {
+            userModel.setRole("Teacher");
+        } else {
+            userModel.setRole("Parent");
+        }
+        isLastFragment = true;
+        joinMemberButton.setText("회원가입");
+        FragmentView(2);
+    }
+
     /*
     The code to sign up through email and password.
     이메일, 비밀번호를 통해 회원가입하는 코드
     */
-    public void createUser(String email, String password) {
+    public void createUser(String name, String email, String password) {
         // Exception to allow all Edittexts to be entered
-        String name = sign_name.getText().toString();
-        String birth = String.format("%d-%d-%d", dayPicker.getYear(),dayPicker.getMonth()+1, dayPicker.getDayOfMonth());
-        String role;
         if (name.equals("")) { Toast.makeText(JoinMemberActivity.this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
         if (email.equals("")) { Toast.makeText(JoinMemberActivity.this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
         if (password.equals("")) { Toast.makeText(JoinMemberActivity.this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
-        if (isTeacher.isChecked()) { role = "Teacher"; }
-        else if (isParent.isChecked()) { role = "Parent"; }
-        else { Toast.makeText(JoinMemberActivity.this, "역할을 선택해 주세요", Toast.LENGTH_SHORT).show(); return; }
-        if (is_checked == false) { Toast.makeText(JoinMemberActivity.this, "비밀번호 확인을 실행해주세요", Toast.LENGTH_SHORT).show(); return; }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -172,9 +170,9 @@ public class JoinMemberActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             final String uid = task.getResult().getUser().getUid();     // UID(Unified ID) 생성
-                            UserModel userModel = new UserModel(name, birth, uid, role);
+                            userModel.setUid(uid); userModel.setName(name);
                             mDatabase.child("users").child(uid).setValue(userModel);    // 데이터베이스에 (UID,이름,생년월일) 저장
-                            mDatabase.child("findData").child(name+birth).setValue(email+"!"+password);
+                            mDatabase.child("findData").child(name+userModel.getBirth()).setValue(email+"!"+password);
                             Toast.makeText(JoinMemberActivity.this, "회원가입을 완료하였습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -184,6 +182,10 @@ public class JoinMemberActivity extends AppCompatActivity {
                         }
                     }
                 });
+        if(userModel.getRole().equals("Teacher")) {
+            sendVerticalEmail();
+            addWaitPeople(email);
+        }
     }
 
     public void sendVerticalEmail() {

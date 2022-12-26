@@ -83,7 +83,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         }
 
         public void setItem(StudentItem item) {
-            studentAge.setText(Integer.toString(item.getAge()));
+            studentAge.setText("(" + Integer.toString(item.getAge()) + "세)");
             studentName.setText(item.getName());
         }
 
