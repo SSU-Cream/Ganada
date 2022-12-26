@@ -100,6 +100,15 @@ public class Posting extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(false) {
+        } else {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private String getDate() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);

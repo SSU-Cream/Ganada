@@ -116,6 +116,8 @@ public class MenuActivity extends AppCompatActivity implements MenuBottomDialog.
         if(item.getItemId() == R.id.menu) {
             showBottomDlg();
             return true;
+        } else {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

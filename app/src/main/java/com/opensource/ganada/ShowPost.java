@@ -163,6 +163,15 @@ public class ShowPost extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(false) {
+        } else {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class CommentAdapter extends BaseAdapter {
         ArrayList<CommentItem> items = new ArrayList<CommentItem>();

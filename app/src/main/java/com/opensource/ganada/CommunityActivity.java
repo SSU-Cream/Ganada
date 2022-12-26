@@ -145,11 +145,14 @@ public class CommunityActivity extends AppCompatActivity
             show_register_student_dlg();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menu) {
             showBottomDlg();
             return true;
+        } else {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

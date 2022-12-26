@@ -88,6 +88,15 @@ public class ShowStudentInfo extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(false) {
+        } else {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void revise_student(StudentItem item) {
         item.setDetailedRecord(show_detail_record.getText().toString());
         mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());

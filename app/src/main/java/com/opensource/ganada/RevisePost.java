@@ -59,6 +59,14 @@ public class RevisePost extends AppCompatActivity {
         annoymity_checkBox = (CheckBox) findViewById(R.id.annoymity_checkBox);
         posting_button = (Button) findViewById(R.id.posting_button);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        toolbarText.setText(" ");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+
         postTitle.setText(postItem.getTitle());
         postContent.setText(postItem.getContent());
         annoymity_checkBox.setChecked(postItem.isAnnoymity());
@@ -81,6 +89,15 @@ public class RevisePost extends AppCompatActivity {
         intent.putExtra("user",currentUser);
         startActivity(intent);
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(false) {
+        } else {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getDate() {
