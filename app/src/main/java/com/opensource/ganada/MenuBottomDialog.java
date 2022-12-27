@@ -45,16 +45,16 @@ public class MenuBottomDialog extends BottomSheetDialogFragment implements View.
         view = inflater.inflate(R.layout.bottom_sheet_menu, container, false);
         mAuth = FirebaseAuth.getInstance();
         listener = (BottomSheetListener) getContext();
-        bottomName = (TextView) view.findViewById(R.id.bottom_name);
-        bottomEmail = (TextView) view.findViewById(R.id.bottom_email);
-        bottomRole = (TextView) view.findViewById(R.id.bottom_role);
-        bottomExit = (ImageView) view.findViewById(R.id.bottom_exit); bottomExit.setOnClickListener(this);
-        reviseUser = (Button) view.findViewById(R.id.bottom_revise_user); reviseUser.setOnClickListener(this);
-        logOut = (Button) view.findViewById(R.id.bottom_logout); logOut.setOnClickListener(this);
-        signOut = (Button) view.findViewById(R.id.bottom_signout); signOut.setOnClickListener(this);
-        link1 = (TextView) view.findViewById(R.id.bottom_link1); link1.setOnClickListener(this);
-        link2 = (TextView) view.findViewById(R.id.bottom_link2); link2.setOnClickListener(this);
-        link3 = (TextView) view.findViewById(R.id.bottom_link3); link3.setOnClickListener(this);
+        bottomName = view.findViewById(R.id.bottom_name);
+        bottomEmail = view.findViewById(R.id.bottom_email);
+        bottomRole = view.findViewById(R.id.bottom_role);
+        bottomExit = view.findViewById(R.id.bottom_exit); bottomExit.setOnClickListener(this);
+        reviseUser = view.findViewById(R.id.bottom_revise_user); reviseUser.setOnClickListener(this);
+        logOut = view.findViewById(R.id.bottom_logout); logOut.setOnClickListener(this);
+        signOut = view.findViewById(R.id.bottom_signout); signOut.setOnClickListener(this);
+        link1 = view.findViewById(R.id.bottom_link1); link1.setOnClickListener(this);
+        link2 = view.findViewById(R.id.bottom_link2); link2.setOnClickListener(this);
+        link3 = view.findViewById(R.id.bottom_link3); link3.setOnClickListener(this);
         get_user_info();
         return view;
     }

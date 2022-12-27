@@ -17,8 +17,8 @@ public class PracticeMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        toolbar = findViewById(R.id.toolbar);
+        TextView toolbarText = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -62,9 +62,9 @@ public class ManageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        TextView toolbarText = findViewById(R.id.toolbar_title);
         toolbar.setBackgroundColor(Color.parseColor("#FCEDE6"));
         toolbarText.setText(" ");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -76,8 +76,8 @@ public class ManageActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         user = mAuth.getCurrentUser();
-        recyclerView = (RecyclerView) findViewById(R.id.studentRecyclerView);
-        register_button = (Button) findViewById(R.id.register_student_button);
+        recyclerView = findViewById(R.id.studentRecyclerView);
+        register_button = findViewById(R.id.register_student_button);
         studentItems = new ArrayList<StudentItem>();
 
 
@@ -90,12 +90,6 @@ public class ManageActivity extends AppCompatActivity
 
         recyclerView.setAdapter(adapter);
 
-        register_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                show_register_student_dlg(adapter);
-            }
-        });
 
         adapter.setOnItemClickListener(new StudentAdapter.OnItemClickListener() {
             @Override
@@ -234,7 +228,7 @@ public class ManageActivity extends AppCompatActivity
     }
 
     public void show_register_student_dlg(StudentAdapter adapter) {
-        View dlgView = (View)View.inflate(ManageActivity.this, R.layout.register_student, null);
+        View dlgView = View.inflate(ManageActivity.this, R.layout.register_student, null);
         AlertDialog.Builder register_student_dlg = new AlertDialog.Builder(ManageActivity.this);
         register_student_dlg.setTitle("학생등록");
         register_student_dlg.setIcon(R.drawable.pic1);
@@ -271,7 +265,7 @@ public class ManageActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int idx = 1;
                 for(DataSnapshot child : snapshot.getChildren()) {
-                    if(!child.getKey().toString().equals(Integer.toString(idx))) {
+                    if(!child.getKey().equals(Integer.toString(idx))) {
                         break;
                     }
                     idx++;

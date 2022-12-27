@@ -18,8 +18,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
     OnItemClickListener listener;
 
-    public static interface OnItemClickListener {
-        public void onItemClick(ViewHolder holder, View view, int position);
+    public interface OnItemClickListener {
+        void onItemClick(ViewHolder holder, View view, int position);
     }
 
     public StudentAdapter(Context context) {
@@ -68,8 +68,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            studentAge = (TextView) itemView.findViewById(R.id.studentAge);
-            studentName = (TextView) itemView.findViewById(R.id.studentName);
+            studentAge = itemView.findViewById(R.id.studentAge);
+            studentName = itemView.findViewById(R.id.studentName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,7 +83,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         }
 
         public void setItem(StudentItem item) {
-            studentAge.setText("(" + Integer.toString(item.getAge()) + "세)");
+            studentAge.setText("(" + item.getAge() + "세)");
             studentName.setText(item.getName());
         }
 

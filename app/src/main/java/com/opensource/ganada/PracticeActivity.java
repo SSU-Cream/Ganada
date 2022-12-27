@@ -53,6 +53,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     private Integer idx = 0;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +69,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
-        toolbar.setBackgroundColor(Color.parseColor("#F8CACC"));
-        toolbarText.setText("학습하기");
+        toolbar.setBackgroundColor(Color.parseColor("#00000000"));
+        toolbarText.setText("");
 
         btn_previous = findViewById(R.id.previous);
         btn_next = findViewById(R.id.next);
@@ -76,12 +78,12 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         btn_previous.setOnClickListener(this);
         btn_next.setOnClickListener(this);
 
-        ex1_img = (ImageView)findViewById(R.id.ex1_img);
-        ex2_img = (ImageView)findViewById(R.id.ex2_img);
-        ex1_text = (TextView)findViewById(R.id.ex1_text);
-        ex2_text = (TextView)findViewById(R.id.ex2_text);
-        content = (TextView)findViewById(R.id.content);
-        contentText = (TextView)findViewById(R.id.contentText);
+        ex1_img = findViewById(R.id.ex1_img);
+        ex2_img = findViewById(R.id.ex2_img);
+        ex1_text = findViewById(R.id.ex1_text);
+        ex2_text = findViewById(R.id.ex2_text);
+        content = findViewById(R.id.content);
+        contentText = findViewById(R.id.contentText);
 
         videoView = findViewById(R.id.videoView);
 

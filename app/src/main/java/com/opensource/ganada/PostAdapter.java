@@ -17,8 +17,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     OnItemClickListener listener;
 
-    public static interface OnItemClickListener {
-        public void onItemClick(ViewHolder holder, View view, int position);
+    public interface OnItemClickListener {
+        void onItemClick(ViewHolder holder, View view, int position);
     }
 
     public PostAdapter(Context context) { this.context = context; }
@@ -70,9 +70,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            post_title = (TextView) itemView.findViewById(R.id.post_title);
-            post_writer = (TextView) itemView.findViewById(R.id.post_writer);
-            post_date = (TextView) itemView.findViewById(R.id.post_date);
+            post_title = itemView.findViewById(R.id.post_title);
+            post_writer = itemView.findViewById(R.id.post_writer);
+            post_date = itemView.findViewById(R.id.post_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
