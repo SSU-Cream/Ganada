@@ -59,6 +59,9 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private SurfaceView surfaceView;
     private Button btn_record_start, btn_record_stop;
 
+    UserModel currentUser;
+    Intent intent;
+
     ArrayList<String> content = new ArrayList(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"));
     ArrayList<String> contentText = new ArrayList(Arrays.asList("기역", "니은", "디귿", "리을", "미음", "비읍", "시옷", "이응", "지읒", "치읓", "키읔", "티읕", "피읖", "히읗"));
 
@@ -165,6 +168,14 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
         q_contentText.setText(contentText.get(random_idx));
 
         status.setText("진행상태 : " + idx.toString() + "/3 \n맞은 개수 : " + score.toString() + "/3 ");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), LearningSelectActivity.class);
+        intent.putExtra("user",currentUser);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
     @Override
