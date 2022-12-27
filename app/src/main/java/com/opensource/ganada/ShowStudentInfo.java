@@ -53,15 +53,15 @@ public class ShowStudentInfo extends AppCompatActivity {
         Intent intent = getIntent();
         currentUser = (UserModel) intent.getSerializableExtra("user");
         StudentItem studentItem = (StudentItem) intent.getSerializableExtra("item");
-        show_student_name = (TextView) findViewById(R.id.show_student_name);
-        show_student_age = (TextView) findViewById(R.id.show_student_age);
-        show_student_score = (TextView) findViewById(R.id.show_student_score);
-        show_detail_record = (EditText) findViewById(R.id.show_detail_record);
-        revise_student_info_button = (Button) findViewById(R.id.revise_student_info_button);
+        show_student_name = findViewById(R.id.show_student_name);
+        show_student_age = findViewById(R.id.show_student_age);
+        show_student_score = findViewById(R.id.show_student_score);
+        show_detail_record = findViewById(R.id.show_detail_record);
+        revise_student_info_button = findViewById(R.id.revise_student_info_button);
         //delete_student_button = (Button) findViewById(R.id.delete_student_button);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        TextView toolbarText = findViewById(R.id.toolbar_title);
         toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
         toolbarText.setText(" ");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -114,13 +114,13 @@ public class ShowStudentInfo extends AppCompatActivity {
     public void set_student_info(StudentItem studentItem) {
         String allScore = "";
         show_student_name.setText(studentItem.getName());
-        show_student_age.setText(Integer.toString(studentItem.getAge()) + "세");
+        show_student_age.setText(studentItem.getAge() + "세");
         if(studentItem.getScores()==null || studentItem.getScores().size()==0) {
             allScore = "점수 없음";
         }
         else {
             for(int i=0; i<studentItem.getScores().size(); i++) {
-                allScore += (studentItem.getScores().get(i).getPracticeTime().substring(0,13) + " : " + Integer.toString(studentItem.getScores().get(i).getScore()) + "점\n");
+                allScore += (studentItem.getScores().get(i).getPracticeTime().substring(0,13) + " : " + studentItem.getScores().get(i).getScore() + "점\n");
             }
         }
         show_student_score.setText(allScore);

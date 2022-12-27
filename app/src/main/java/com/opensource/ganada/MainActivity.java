@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         mAuth = FirebaseAuth.getInstance();
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        TextView joinMemberButton = (TextView) findViewById(R.id.joinMemberButton);
-        Button loginButton = (Button) findViewById(R.id.loginButton);
-        TextView forget_idpw = (TextView) findViewById(R.id.forget_idpw);
-        id_check = (CheckBox) findViewById(R.id.id_check);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        TextView joinMemberButton = findViewById(R.id.joinMemberButton);
+        Button loginButton = findViewById(R.id.loginButton);
+        TextView forget_idpw = findViewById(R.id.forget_idpw);
+        id_check = findViewById(R.id.id_check);
         //ImageView googleLoginButton = (ImageView) findViewById(R.id.googleLoginButton);
 
         SharedPreferences pref = getSharedPreferences("pref", 0);
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton faceLoginButton = (LoginButton) findViewById(R.id.faceLoginButton);
+        LoginButton faceLoginButton = findViewById(R.id.faceLoginButton);
         faceLoginButton.setReadPermissions("email", "public_profile");
         faceLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
             pressedTime = System.currentTimeMillis();
         } else {
-            long seconds = (long) (System.currentTimeMillis() - pressedTime);
+            long seconds = System.currentTimeMillis() - pressedTime;
             if(seconds > 2000L) {
                 Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
                 pressedTime = 0L;
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
     잃버버린 이메일, 비밀번호를 보여주는 다이얼로그 생성
     */
     public void show_email_pwd_dlg(String email, String password) {
-        View dlgView = (View)View.inflate(MainActivity.this, R.layout.find_member, null);
+        View dlgView = View.inflate(MainActivity.this, R.layout.find_member, null);
         AlertDialog.Builder find_email_dlg = new AlertDialog.Builder(MainActivity.this);
         find_email_dlg.setTitle("이메일/비밀번호 찾기");
         find_email_dlg.setIcon(R.drawable.pic1);

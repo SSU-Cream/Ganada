@@ -78,20 +78,20 @@ public class ShowPost extends AppCompatActivity {
         PostItem postItem = (PostItem) intent.getSerializableExtra("item");
         String pType = intent.getStringExtra("type");
 
-        ImageButton delete_post_button = (ImageButton) findViewById(R.id.delete_post_button);
-        ImageButton revise_post_button = (ImageButton) findViewById(R.id.revise_post_button);
-        ImageButton add_comment_button = (ImageButton) findViewById(R.id.add_comment_button);
-        TextView postingType = (TextView) findViewById(R.id.posting_type);
-        commentCount = (TextView) findViewById(R.id.comment_count);
-        show_post_title = (TextView) findViewById(R.id.show_post_title);
-        show_post_writer = (TextView) findViewById(R.id.show_post_writer);
-        show_post_date = (TextView) findViewById(R.id.show_post_date);
-        show_post_content = (TextView) findViewById(R.id.show_post_content);
-        new_comment = (EditText) findViewById(R.id.new_comment);
-        annoymity_comment = (CheckBox) findViewById(R.id.annoymity_checkBox);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ImageButton delete_post_button = findViewById(R.id.delete_post_button);
+        ImageButton revise_post_button = findViewById(R.id.revise_post_button);
+        ImageButton add_comment_button = findViewById(R.id.add_comment_button);
+        TextView postingType = findViewById(R.id.posting_type);
+        commentCount = findViewById(R.id.comment_count);
+        show_post_title = findViewById(R.id.show_post_title);
+        show_post_writer = findViewById(R.id.show_post_writer);
+        show_post_date = findViewById(R.id.show_post_date);
+        show_post_content = findViewById(R.id.show_post_content);
+        new_comment = findViewById(R.id.new_comment);
+        annoymity_comment = findViewById(R.id.annoymity_checkBox);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        TextView toolbarText = findViewById(R.id.toolbar_title);
         toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
         toolbarText.setText(" ");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -100,7 +100,7 @@ public class ShowPost extends AppCompatActivity {
 
         show_post_title.setText(postItem.getTitle());
         postingType.setText(pType);
-        listView = (ListView) findViewById(R.id.comments);
+        listView = findViewById(R.id.comments);
         adapter = new CommentAdapter();
 
         getCommentDatas(postItem.getPost_key());
@@ -209,7 +209,7 @@ public class ShowPost extends AppCompatActivity {
             commentItemView.setDate(item.getDate());
             commentItemView.setContent(item.getContent());
 
-            Button delete_comment_button = (Button) commentItemView.findViewById(R.id.delete_comment_button);
+            Button delete_comment_button = commentItemView.findViewById(R.id.delete_comment_button);
             if(!user.getEmail().equals(item.getWriter())) delete_comment_button.setVisibility(View.INVISIBLE);
             delete_comment_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -238,9 +238,9 @@ public class ShowPost extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.comment_item, this, true);
 
-            comment_writer = (TextView) findViewById(R.id.comment_writer);
-            comment_date = (TextView) findViewById(R.id.comment_date);
-            comment_content = (TextView) findViewById(R.id.comment_content);
+            comment_writer = findViewById(R.id.comment_writer);
+            comment_date = findViewById(R.id.comment_date);
+            comment_content = findViewById(R.id.comment_content);
         }
         public void setWriter(String email, boolean annoymity) {
             if(annoymity)
@@ -267,7 +267,7 @@ public class ShowPost extends AppCompatActivity {
                     commentNum++;
                 }
                 adapter.notifyDataSetChanged();
-                commentCount.setText("댓글 " + String.valueOf(commentNum) + "개");
+                commentCount.setText("댓글 " + commentNum + "개");
             }
 
             @Override
@@ -289,7 +289,7 @@ public class ShowPost extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int idx = 1;
                 for(DataSnapshot child : snapshot.getChildren()) {
-                    if(!child.getKey().toString().equals(Integer.toString(idx))) {
+                    if(!child.getKey().equals(Integer.toString(idx))) {
                         break;
                     }
                     idx++;

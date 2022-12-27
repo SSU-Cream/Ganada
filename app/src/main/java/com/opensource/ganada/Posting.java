@@ -56,14 +56,14 @@ public class Posting extends AppCompatActivity {
         currentUser = (UserModel) intent.getSerializableExtra("user");
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        postTitle = (EditText) findViewById(R.id.show_post_title);
-        postContent = (EditText) findViewById(R.id.postContent);
-        annoymity_checkBox = (CheckBox) findViewById(R.id.annoymity_checkBox);
-        only_role_checkBox = (CheckBox) findViewById(R.id.only_role_checkBox);
-        posting_button = (Button) findViewById(R.id.posting_button);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        postTitle = findViewById(R.id.show_post_title);
+        postContent = findViewById(R.id.postContent);
+        annoymity_checkBox = findViewById(R.id.annoymity_checkBox);
+        only_role_checkBox = findViewById(R.id.only_role_checkBox);
+        posting_button = findViewById(R.id.posting_button);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
+        TextView toolbarText = findViewById(R.id.toolbar_title);
         toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
         toolbarText.setText(" ");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -127,7 +127,7 @@ public class Posting extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int idx = 1;
                 for(DataSnapshot child : snapshot.getChildren()) {
-                    if(!child.getKey().toString().equals(Integer.toString(idx))) {
+                    if(!child.getKey().equals(Integer.toString(idx))) {
                         break;
                     }
                     idx++;

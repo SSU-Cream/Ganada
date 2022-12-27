@@ -1,42 +1,42 @@
 package com.opensource.ganada;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.CamcorderProfile;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.camera.core.AspectRatio;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
-import android.Manifest;
-import android.hardware.Camera;
-import android.media.MediaRecorder;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -49,9 +49,22 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.AspectRatio;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.app.ActivityCompat;
+import java.util.concurrent.ExecutionException;
 
-public class LearningActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
+<<<<<<< Updated upstream
     Toolbar toolbar;
     private Camera camera;
     private MediaRecorder mediaRecorder;
@@ -60,6 +73,18 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private Button btn_record_start, btn_record_stop;
     UserModel currentUser;
     Intent intent;
+=======
+public class LearningActivity extends AppCompatActivity {
+
+    PreviewView previewView;
+    String TAG = "LearningActivity";
+    ProcessCameraProvider processCameraProvider;
+    int lensFacing = CameraSelector.LENS_FACING_FRONT;
+    //int lensFacing = CameraSelector.LENS_FACING_BACK;
+
+    Button record_btn;
+    boolean isRecording = false;
+>>>>>>> Stashed changes
 
     ArrayList<String> content = new ArrayList(Arrays.asList("ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"));
     ArrayList<String> contentText = new ArrayList(Arrays.asList("기역", "니은", "디귿", "리을", "미음", "비읍", "시옷", "이응", "지읒", "치읓", "키읔", "티읕", "피읖", "히읗"));
@@ -71,10 +96,9 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
     private Integer random_idx = 0;
     Random rand = new Random();
 
-    private TextView q_content, q_contentText, childName, status;
-    StudentItem item;
-    private FirebaseUser user;
-    private DatabaseReference mDatabase;
+    TextView score1, score2, score3;
+
+    private TextView q_content, q_contentText;
 
     File file;
     RequestBody fileBody;
@@ -98,30 +122,32 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
 
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning);
 
-        btn_record_start = (Button) findViewById(R.id.btn_record_start);
-        btn_record_stop = (Button) findViewById(R.id.btn_record_stop);
+        previewView = findViewById(R.id.previewView);
+        record_btn = findViewById(R.id.record_btn);
 
-        btn_record_start.setOnClickListener(this);
-        btn_record_stop.setOnClickListener(this);
+        score1 = findViewById(R.id.score1);
+        score2 = findViewById(R.id.score2);
+        score3 = findViewById(R.id.score3);
 
-        q_content = (TextView) findViewById(R.id.q_content);
-        q_contentText = (TextView) findViewById(R.id.q_contentText);
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 1);
 
-        childName = (TextView) findViewById(R.id.childName);
-        status = (TextView) findViewById(R.id.status);
-
-        for (String s1 : content) {
-            System.out.println("content : " + s1);
+        try {
+            processCameraProvider = ProcessCameraProvider.getInstance(this).get();
         }
-        for (String s2 : contentText) {
-            System.out.println("contentText : " + s2);
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
+<<<<<<< Updated upstream
         /*
         Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
         intent.putExtra("video_file", file);
@@ -213,161 +239,123 @@ public class LearningActivity extends AppCompatActivity implements SurfaceHolder
                             System.err.println(e);
 
 
-                        }
+=======
+        record_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View view) {
+                if (isRecording) {
 
-                        boolean isCreated = video.exists();
+                    processCameraProvider.unbindAll();
 
-                        if (isCreated) {
-                            mediaRecorder.setOutputFile(file);
-                            Toast.makeText(LearningActivity.this, "record -ing", Toast.LENGTH_LONG).show();
-                            mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-                            mediaRecorder.prepare();
-                            mediaRecorder.start();
-                        } else {
-                            System.err.println("failed to create file");
-                        }
+                    // 파일 위치 찾아서 아무 영상이나 서버로 전송
 
-                         */
+                    file = new File();
+                    fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                    filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
 
-                    } catch (Exception e) {
-                        Log.e("LearningActivity.java", "Error in 79" + e.getMessage());
-                        e.printStackTrace();
-                        mediaRecorder.release();
-                    }
+                    retrofitAPI.request(filePart).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("retrofit", "POST 성공");
+                                String result = response.body();
+                                Log.d("retrofit", result);
 
-                }
-            });
-        } else if (v == btn_record_stop) {
-                System.out.println("record stop");
-                //Toast.makeText(LearningActivity.this, "record stop", Toast.LENGTH_SHORT).show();
+                                if (result.equals("o")){
+                                    score++;
+                                    if (idx == 0)
+                                        score1.setTextColor(Integer.parseInt("#03fc0b"));
+                                    else if (idx == 1)
+                                        score2.setTextColor(Integer.parseInt("#03fc0b"));
+                                    else
+                                        score3.setTextColor(Integer.parseInt("#03fc0b"));
+                                } else {
+                                    if (idx == 0)
+                                        score1.setTextColor(Integer.parseInt("#fc0303"));
+                                    else if (idx == 1)
+                                        score2.setTextColor(Integer.parseInt("#fc0303"));
+                                    else
+                                        score3.setTextColor(Integer.parseInt("#fc0303"));
+                                }
 
-                mediaRecorder.stop();
-                mediaRecorder.release();
-                camera.lock();
+                                Log.d("result", result);
+                                Toast.makeText(LearningActivity.this, "문제 : " + contentText.get(random_idx) + ", 서버에서 받은 내용 : " + result + " => 서버 성공", Toast.LENGTH_LONG).show();
 
-                /*
-                if (idx < 2) {
-                    idx++;
-                    score++;
-                } else if (idx == 2){
-                    idx++;
+                                if (idx < 2) {
+                                    idx++;
+                                } else if (idx == 2) {
+                                    idx++;
 
-                    //item.setScore(score);
-                    //mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
-                    //mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
-
-                    Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
-
-                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    startActivity(intent);
-                }
-                setQuestion();
-
-
-                 */
-
-                file = new File("/sdcard/DCIM/Camera/recordtest.mp4");
-                fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
-
-                retrofitAPI.request(filePart).enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("retrofit", "POST 성공");
-                            String result = response.body();
-                            Log.d("retrofit", result);
-
-                            if (result.equals("o"))
-                                score++;
-                            /*
-                            if (result.equals(contentText.get(random_idx)))
-                                score++;
-                            */
-
-                            Log.d("result", result);
-                            Toast.makeText(LearningActivity.this, "문제 : " + contentText.get(random_idx) + ", 서버에서 받은 내용 : " + result + " => 서버 성공", Toast.LENGTH_LONG).show();
-
-                            if (idx < 2) {
-                                idx++;
-                            } else if (idx == 2) {
-                                idx++;
-
-                                mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
-                                mDatabase.child(Integer.toString(item.getStudentNum())).setValue(item);
-
-                                Toast.makeText(LearningActivity.this, item.getName() + "은(는) 3개 중 " + score.toString() + "개 맞았습니다.", Toast.LENGTH_LONG).show();
-
-                                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                                startActivity(intent);
+                                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                                    startActivity(intent);
+                                }
+                                setQuestion();
+                                isRecording = false;
                             }
-                            setQuestion();
+>>>>>>> Stashed changes
                         }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+
+                        }
+                    });
+
+
+                } else {
+                    isRecording = true;
+                    Log.d("recording", "record btn pressed");
+
+                    if (ActivityCompat.checkSelfPermission(LearningActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        bindPreview();
                     }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-
-                    }
-                });
-
+                }
             }
+        });
+
+        q_content = findViewById(R.id.q_content);
+        q_contentText = findViewById(R.id.q_contentText);
+
+        for (String s1 : content) {
+            System.out.println("content : " + s1);
+        }
+        for (String s2 : contentText) {
+            System.out.println("contentText : " + s2);
         }
 
-    PermissionListener permission = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-            Toast.makeText(LearningActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
 
-            camera = Camera.open(1);
-            camera.setDisplayOrientation(90);
-            surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
-            surfaceHolder = surfaceView.getHolder();
-            surfaceHolder.addCallback(LearningActivity.this);
-            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        setQuestion();
+    }
 
+    private void setQuestion() {
+        random_idx = rand.nextInt(14);
 
-        }
+        q_content.setText(content.get(random_idx));
+        q_contentText.setText(contentText.get(random_idx));
 
-        @Override
-        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-            Toast.makeText(LearningActivity.this, "권한 거부", Toast.LENGTH_SHORT).show();
-        }
-    };
+        // status.setText("진행상태 : " + idx.toString() + "/3 \n맞은 개수 : " + score.toString() + "/3 ");
+    }
 
+    @SuppressLint("NewApi")
+    void bindPreview() {
+        previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(lensFacing)
+                .build();
+        Preview preview = new Preview.Builder()
+                .setTargetAspectRatio(AspectRatio.RATIO_4_3) //디폴트 표준 비율
+                .build();
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+
+        processCameraProvider.bindToLifecycle(this, cameraSelector, preview);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    private void refreshCamera(Camera camera) {
-        if (surfaceHolder.getSurface() == null) {
-            return;
-        }
-
-        try {
-            camera.stopPreview();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        setCamera(camera);
-    }
-
-    private void setCamera(Camera cam) {
-
-        camera = cam;
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        refreshCamera(camera);
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
+    protected void onPause() {
+        super.onPause();
+        processCameraProvider.unbindAll();
     }
 }
 

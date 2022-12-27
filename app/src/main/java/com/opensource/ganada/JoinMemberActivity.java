@@ -67,8 +67,8 @@ public class JoinMemberActivity extends AppCompatActivity {
         FragmentView(1);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        ImageView join_back = (ImageView) findViewById(R.id.join_back);
-        joinMemberButton = (Button) findViewById(R.id.joinMemberButton);
+        ImageView join_back = findViewById(R.id.join_back);
+        joinMemberButton = findViewById(R.id.joinMemberButton);
 
         joinMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override

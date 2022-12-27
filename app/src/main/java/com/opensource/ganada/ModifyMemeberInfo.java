@@ -54,10 +54,10 @@ public class ModifyMemeberInfo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         user = mAuth.getCurrentUser();
-        revise_button = (Button) findViewById(R.id.revise_button);
-        revise_name = (EditText) findViewById(R.id.revise_name);
-        revise_dayspin = (DatePicker) findViewById(R.id.revise_dayspin);
-        verify_pwd = (EditText) findViewById(R.id.verify_pwd);
+        revise_button = findViewById(R.id.revise_button);
+        revise_name = findViewById(R.id.revise_name);
+        revise_dayspin = findViewById(R.id.revise_dayspin);
+        verify_pwd = findViewById(R.id.verify_pwd);
 
         revise_dayspin.setMaxDate(System.currentTimeMillis());
 
