@@ -90,6 +90,14 @@ public class LearningSelectActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.putExtra("user",currentUser);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+
     public void getStudentsDatas(StudentAdapter adapter, ArrayList<StudentItem> studentItems) {
         mDatabase = FirebaseDatabase.getInstance().getReference("students").child(user.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {

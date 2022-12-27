@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -42,6 +43,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
     private TextView ex1_text, ex2_text, content, contentText;
     private Button btn_previous, btn_next;
     Toolbar toolbar;
+    UserModel currentUser;
+    Intent intent;
 
     private DatabaseReference databaseReference;
     private FirebaseDatabase database;
@@ -54,6 +57,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
 
+        intent = getIntent();
+        currentUser = (UserModel) intent.getSerializableExtra("user");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarText = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
@@ -183,6 +188,14 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         }
 
          */
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.putExtra("user",currentUser);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
     private void setContents() {
