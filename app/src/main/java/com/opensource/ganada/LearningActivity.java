@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -149,7 +150,7 @@ public class LearningActivity extends AppCompatActivity {
 
                     // 파일 위치 찾아서 아무 영상이나 서버로 전송
 
-                    file = new File();
+                    file = new File(String.valueOf(R.raw.test));
                     fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
 
