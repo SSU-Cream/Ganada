@@ -128,6 +128,9 @@ public class LearningActivity extends AppCompatActivity {
         score2 = findViewById(R.id.score2);
         score3 = findViewById(R.id.score3);
 
+        Intent intent = getIntent();
+        currentUser = (UserModel) intent.getSerializableExtra("user");
+
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 1);
 
         try {
@@ -255,6 +258,14 @@ public class LearningActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         processCameraProvider.unbindAll();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.putExtra("user",currentUser);
+        startActivity(intent);
+        super.onBackPressed();
     }
 }
 
